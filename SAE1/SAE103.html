@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAE 1.03 - Distance To Fault</title>
+    <style>
+        /* Variables et styles généraux */
+        :root {
+            --primary-color: #5271ff;
+            --secondary-color: #1a1a2e;
+            --accent-color: #4cc9f0;
+            --text-color: #f8f9fa;
+            --background-color: #121629;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --success-color: #2ed573;
+            --warning-color: #ffc700;
+            --danger-color: #ff4757;
+            --purple-color: #8e44ad;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .background-video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -100;
+        }
+
+        .background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(54, 31, 203, 0.1);
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--secondary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .sae-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .sae-title {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .sae-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            background-color: var(--accent-color);
+            bottom: -10px;
+            left: 20%;
+        }
+
+        .sae-section {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Description */
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Preuves section */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 560px;
+            display: block;
+        }
+
+        .document-list {
+            list-style: none;
+        }
+
+        .document-list li {
+            margin-bottom: 1rem;
+        }
+
+        .document-link {
+            display: flex;
+            align-items: center;
+            background-color: rgba(76, 201, 240, 0.1);
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color 0.3s;
+        }
+
+        .document-link:hover {
+            background-color: rgba(76, 201, 240, 0.2);
+        }
+
+        .document-icon {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Compétences section */
+        .competences-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .competences-table th,
+        .competences-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .competences-table th {
+            background-color: rgba(82, 113, 255, 0.2);
+            color: var(--accent-color);
+        }
+
+        .competences-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .validated {
+            background-color: rgba(46, 213, 115, 0.2);
+            color: #2ed573;
+        }
+
+        .in-progress {
+            background-color: rgba(255, 199, 0, 0.2);
+            color: #ffc700;
+        }
+
+        .not-validated {
+            background-color: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+
+        /* Retour d'expérience */
+        .experience ul,
+        .experience ol {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        .experience li {
+            margin-bottom: 0.8rem;
+        }
+
+        /* Points forts séparés */
+        .strengths-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(82, 113, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .strengths-title {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .strengths-title::before {
+            content: "⭐";
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .strengths-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .strengths-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .strengths-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Style pour les tableaux problèmes/solutions */
+        .problems-solutions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .problems-solutions-table th {
+            padding: 1.2rem;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .problems-solutions-table th:first-child {
+            background-color: rgba(255, 71, 87, 0.2);
+            color: var(--danger-color);
+            border-right: 2px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .problems-solutions-table th:last-child {
+            background-color: rgba(46, 213, 115, 0.2);
+            color: var(--success-color);
+        }
+
+        /* Style spécial pour le tableau des améliorations futures */
+        .improvements-table th:first-child {
+            background-color: rgba(255, 71, 87, 0.2);
+            color: var(--danger-color);
+            border-right: 2px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .improvements-table th:last-child {
+            background-color: rgba(142, 68, 173, 0.2);
+            color: var(--purple-color);
+        }
+
+        .problems-solutions-table td {
+            padding: 1.5rem;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .problems-solutions-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .problems-solutions-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .problem-cell {
+            background-color: rgba(255, 71, 87, 0.05);
+            border-right: 2px solid rgba(255, 71, 87, 0.2);
+            position: relative;
+        }
+
+        .solution-cell {
+            background-color: rgba(46, 213, 115, 0.05);
+        }
+
+        .improvement-cell {
+            background-color: rgba(142, 68, 173, 0.05);
+        }
+
+        .problem-icon,
+        .solution-icon,
+        .improvement-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .problem-icon {
+            color: var(--danger-color);
+        }
+
+        .solution-icon {
+            color: var(--success-color);
+        }
+
+        .improvement-icon {
+            color: var(--purple-color);
+        }
+
+        /* Section séparatrice */
+        .section-separator {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .separator-title {
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            padding: 0 2rem;
+            background-color: var(--card-bg);
+        }
+
+        .separator-title::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -50px;
+            right: -50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            z-index: -1;
+        }
+
+        /* Conseils */
+        .tip-box {
+            background-color: rgba(82, 113, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip-title {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .tip-title::before {
+            content: "💡";
+            margin-right: 0.5rem;
+        }
+
+        /* Back button */
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 2rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sae-title {
+                font-size: 2.2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .problems-solutions-table {
+                font-size: 0.9rem;
+            }
+
+            .problems-solutions-table th,
+            .problems-solutions-table td {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <div class="background-video-container">
+            <video class="background-video" autoplay muted loop playsinline>
+                <source src="/vidéo/vecteezy_graphic-motion-overlay-effect-loop-with-galaxy-sky-twinkling_13776245.mp4"
+                    type="video/mp4" />
+            </video>
+        </div>
+        <!-- En-tête de la SAE -->
+        <div class="sae-header">
+            <h1 class="sae-title">SAE 1.03 - Distance To Fault</h1>
+        </div>
+
+        <!-- Section Description -->
+        <section class="sae-section">
+            <h2 class="section-title">Résumé du projet</h2>
+            <div class="description">
+                <p>Ce projet avait pour objectif de découvrir la mesure de Distance To Fault (DTF), essentielle pour la caractérisation des liaisons coaxiales ou Ethernet dans les réseaux. Nous avons utilisé un analyseur de spectre ainsi qu'un oscilloscope pour comparer deux méthodes de mesure de longueur de câbles et identifier éventuellement des défauts sur le support.</p>
+            </div>
+        </section>
+
+        <section class="sae-section">
+            <h2 class="section-title">Ce que j'ai fait précisément dans la SAE13</h2>
+            <div class="description">
+                <ul>
+                    <li>Utilisation de l'analyseur de spectre SIGLENT SVA1032X pour mesurer la DTF.</li>
+                    <li>Mesure du temps de parcours d'une impulsion avec le GBF et un oscilloscope.</li>
+                    <li>Calcul de la longueur d'un câble à partir du temps de parcours et comparaison avec la DTF.</li>
+                    <li>Réalisation de deux mesures sur un câble coaxial et un câble Ethernet pour évaluer la précision des équipements.</li>
+                    <li>Calcul du pourcentage d'erreur entre les deux méthodes.</li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- Section Preuves -->
+        <section class="sae-section">
+            <h2 class="section-title">Documents et preuves</h2>
+            <div class="documents">
+                <h3>Voici les documents et captures d'écran illustrant le travail réalisé :</h3>
+                <ul class="document-list">
+                    <li>
+                        <a href="/image/TP_projet_SAE13_DTF.pdf" class="document-link">
+                            <span class="document-icon">📄</span>
+                            Sujet DTF
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/image/Brenugat-Canival-Dando-Divay-Foreau-SAE13-DTF.pdf .pdf" class="document-link">
+                            <span class="document-icon">📄</span>
+                            Compte rendu de groupe DTF
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section Apprentissages critiques -->
+        <section class="sae-section">
+            <h2 class="section-title">Apprentissages critiques</h2>
+            <p>Cette SAE m'a permis de développer et d'évaluer plusieurs compétences essentielles :</p>
+
+            <table class="competences-table">
+                <thead>
+                    <tr>
+                        <th>Compétence</th>
+                        <th>Description</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AC12.01</td>
+                        <td>Mesurer et analyser les signaux</td>
+                        <td><span class="status validated">Validée</span></td>
+                    </tr>
+                    <tr>
+                        <td>AC12.03</td>
+                        <td>Déployer des supports de transmission</td>
+                        <td><span class="status validated">Validée</span></td>
+                    </tr>
+                    <tr>
+                        <td>AC12.05</td>
+                        <td>Communiquer avec un tiers (client, collaborateur…) et adapter son discours et sa langue à son interlocuteur</td>
+                        <td><span class="status validated">Validée</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section Retour d'expérience -->
+        <section class="sae-section">
+            <h2 class="section-title">Retour d'expérience</h2>
+        
+            <div class="strengths-section">
+                <h3 class="strengths-title">Points forts du projet</h3>
+                <ul class="strengths-list">
+                    <li>Manipulation concrète des équipements professionnels (DTF, oscilloscope).</li>
+                    <li>Comparaison et validation croisée des deux méthodes de mesure.</li>
+                    <li>Calculs précis avec faible taux d'erreur entre les deux techniques.</li>
+                </ul>
+            </div>
+        
+            <h3 style="color: var(--accent-color); margin-top: 2rem;">🔧 Problèmes rencontrés et solutions</h3>
+            <table class="problems-solutions-table">
+                <tr>
+                    <th>🔴 Problèmes rencontrés</th>
+                    <th>🟢 Solutions trouvées</th>
+                </tr>
+                <tr>
+                    <td class="problem-cell">Difficulté initiale à régler correctement le GBF et l’oscilloscope</td>
+                    <td class="solution-cell">Consultation du support technique et réglage collaboratif avec les membres du groupe</td>
+                </tr>
+                <tr>
+                    <td class="problem-cell">Erreur d’interprétation sur la position du pic DTF</td>
+                    <td class="solution-cell">Relecture des consignes du TP et vérification avec les enseignants</td>
+                </tr>
+            </table>
+        
+            <div class="section-separator">
+                <h3 class="separator-title">Axes d'amélioration identifiés</h3>
+            </div>
+        
+            <h3 style="color: var(--purple-color);">🎯 Problèmes non résolus et améliorations à apporter</h3>
+            <table class="problems-solutions-table improvements-table">
+                <tr>
+                    <td class="problem-cell">Temps de réaction trop long pour analyser en direct les résultats du DTF</td>
+                    <td class="improvement-cell">Préparer une fiche récapitulative des étapes et paramètres à surveiller</td>
+                </tr>
+                <tr>
+                    <td class="problem-cell">Manque d'automatisation dans les calculs d'erreur</td>
+                    <td class="improvement-cell">Créer un petit script Python pour automatiser les formules de vérification</td>
+                </tr>
+            </table>
+        
+            <div class="tip-box">
+                <p class="tip-title">Conseils pour refaire ce projet</p>
+                <ul style="margin-left: 1.5rem;">
+                    <li>Lire le TP en entier avant de démarrer pour anticiper les réglages.</li>
+                    <li>Travailler avec méthode en notant toutes les valeurs observées à chaque étape.</li>
+                    <li>Comparer les deux méthodes (oscilloscope et DTF) dès que possible pour gagner du temps sur l’analyse.</li>
+                </ul>
+            </div>
+        </section>
+        
+
+        <!-- Bouton retour -->
+        <a href="../index.html" class="back-button">← Retour aux SAÉ</a>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2025 PortfolioRT - Tous droits réservés</p>
+    </footer>
+</body>
+
+</html>

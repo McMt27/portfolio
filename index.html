@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio RT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+            background-image: "vecteezy_graphic-motion-overlay-effect-loop-with-galaxy-sky-twinkling_13776245.mp4";
+
+        }
+        @font-face {
+            font-family: "Alfa Slab One", serif;
+            src: url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+        }
+
+        body {
+            color: #e1e1ff;
+            font-family: "Alfa Slab One", serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s;
+        }
+
+        /* Étoiles d'arrière-plan */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        /* Curseur personnalisé */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(100, 200, 255, 0.8);
+            box-shadow: 0 0 15px 5px rgba(100, 200, 255, 0.6);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: transform 0.1s, width 0.2s, height 0.2s;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(100, 200, 255, 0.3);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9998;
+            transition: width 0.1s, height 0.1s, opacity 1s;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            padding: 1rem 0;
+            background: linear-gradient(to bottom, rgba(10, 10, 26, 0.9), rgba(10, 10, 26, 0));
+        }
+
+        nav {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #64c8ff;
+            text-shadow: 0 0 15px rgba(100, 200, 255, 0.8);
+        }
+
+        .menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #e1e1ff;
+            font-size: 1.2rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: #64c8ff;
+        }
+
+        .menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #64c8ff;
+            transition: width 0.3s;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Sections principales */
+        section {
+            min-height: 100vh;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(54, 31, 203, 0.1);
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            animation: heroFloat 6s ease-in-out infinite;
+            padding: 3rem;
+            border-radius: 20px;
+            background: rgba(26, 26, 74, 0.1);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.02); }
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #ffffff, #64c8ff, #5a3fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 50px rgba(100, 200, 255, 0.5);
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+        .hero-content p {
+            font-size: 1.6rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            color: #b8b8ff;
+            line-height: 1.6;
+            text-shadow: 0 0 10px rgba(184, 184, 255, 0.5);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, #5a3fff, #64c8ff);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: none;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.6);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(100, 200, 255, 0.8);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            padding-top: 110%; 
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(100, 200, 255, 0.3);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #5a3fff, #64c8ff, #5a3fff);
+            z-index: -1;
+            border-radius: 17px;
+            animation: border-animation 3s linear infinite;
+        }
+
+        .about-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #b8b8ff;
+            line-height: 1.6;
+        }
+
+        .skill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-tag {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #64c8ff, #5a3fff);
+            border: 1px solid #5a3fff;
+            border-radius: 50px;
+            font-size: 1rem;
+            text-decoration: none;
+            color: #dbdbff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(100, 200, 255, 0.8);
+        }
+
+        /* Section SAE */
+        #sae {
+            padding-top: 8rem;
+        }
+
+        .sae-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .sae-header h2 {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .sae-header p {
+            font-size: 1.2rem;
+            color: #b8b8ff;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tab-container {
+            margin-bottom: 2rem;
+        }
+
+        .year-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .year-tab {
+            padding: 0.8rem 2rem;
+            background: rgba(100, 200, 255, 0.1);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            border-radius: 10px;
+            color: #b8b8ff;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            cursor: none;
+        }
+
+        .year-tab.active {
+            background: rgba(100, 200, 255, 0.3);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+        }
+
+        .semester-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .semester-tab {
+            padding: 0.5rem 1.5rem;
+            background: rgba(90, 63, 255, 0.1);
+            border: 1px solid rgba(90, 63, 255, 0.3);
+            border-radius: 8px;
+            color: #b8b8ff;
+            font-size: 1rem;
+            transition: all 0.3s;
+            cursor: none;
+        }
+
+        .semester-tab.active {
+            background: rgba(90, 63, 255, 0.3);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(90, 63, 255, 0.5);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.6s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sae-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .sae-card {
+            background: rgba(26, 26, 74, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sae-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(100, 200, 255, 0.4);
+        }
+
+        .sae-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #3b1e7e, #0d0274);
+            z-index: -1;
+            border-radius: 17px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sae-card:hover::before {
+            opacity: 1;
+        }
+
+        .sae-card-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .sae-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .sae-card:hover .sae-card-img img {
+            transform: scale(1.1);
+        }
+
+        .sae-card-body {
+            padding: 1.5rem;
+        }
+
+        .sae-card-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .sae-card-text {
+            font-size: 0.9rem;
+            color: #b8b8ff;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .sae-card-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .card-link {
+            padding: 0.5rem 1rem;
+            background: rgba(90, 63, 255, 0.2);
+            border: 1px solid rgba(90, 63, 255, 0.5);
+            border-radius: 5px;
+            color: #b8b8ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .card-link:hover {
+            background: rgba(90, 63, 255, 0.5);
+            color: #fff;
+        }
+
+        /* Section projets */
+        #projects {
+            padding-top: 8rem;
+        }
+
+        .projects-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .projects-header h2 {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .projects-header p {
+            font-size: 1.2rem;
+            color: #b8b8ff;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .projects-showcase {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 2rem;
+            padding: 1rem 0;
+            margin-bottom: 3rem;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .projects-showcase::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+
+        .project-item {
+            min-width: 350px;
+            scroll-snap-align: start;
+            background: rgba(26, 26, 74, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
+        }
+
+        .project-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(100, 200, 255, 0.4);
+        }
+
+        .project-img {
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .project-item:hover .project-img img {
+            transform: scale(1.1);
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .project-text {
+            font-size: 0.9rem;
+            color: #b8b8ff;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(100, 200, 255, 0.1);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #64c8ff;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(45deg, #5a3fff, #64c8ff);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .project-link:hover {
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+        }
+
+        /* Section contact */
+        #contact {
+            padding-top: 8rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            color: #b8b8ff;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(26, 26, 74, 0.5);
+            border-radius: 10px;
+            color: #b8b8ff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            background: rgba(26, 26, 74, 0.8);
+            transform: translateX(10px);
+            color: #fff;
+        }
+
+        .contact-link i {
+            font-size: 1.5rem;
+            color: #64c8ff;
+        }
+
+        .contact-form {
+            background: rgba(26, 26, 74, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b8b8ff;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(10, 10, 26, 0.5);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #64c8ff;
+            box-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #5a3fff, #64c8ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer-content {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            color: #64c8ff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: #b8b8ff;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(26, 26, 74, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64c8ff;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: #64c8ff;
+            color: #0a0a1a;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            color: #8888bb;
+            font-size: 0.9rem;
+        }
+
+        /* Animations et effets */
+        @keyframes border-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Media queries pour la responsivité */
+        @media (max-width: 992px) {
+            .about-grid, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                margin-bottom: 2rem;
+            }
+
+            .menu {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .menu {
+                display: none;
+            }
+        }
+
+        .background-video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -100;
+}
+
+.background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Fond vidéo plein écran -->
+<div class="background-video-container">
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="/vidéo/vecteezy_graphic-motion-overlay-effect-loop-with-galaxy-sky-twinkling_13776245.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la lecture de vidéos.
+    </video>
+</div>
+
+    <!-- Éléments du curseur personnalisé -->
+    <div class="cursor"></div>
+    <div class="stars" id="stars"></div>
+    
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav>
+            <div class="logo">Portfolio<span style="color: #5a3fff;">RT</span></div>
+            <ul class="menu">
+                <li><a href="#hero">Accueil</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#sae">SAÉ</a></li>
+                <li><a href="#projects">Projets</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+<section id="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Bienvenue dans mon univers</h1>
+                <p>Étudiant passionné en Réseaux & Télécommunications, explorez mes projets et compétences</p>
+                <a href="#sae" class="cta-button">Découvrir mes réalisations</a>
+                <a href="/image/CV Maxence Canival.pdf" class="skill-tag">Mon CV</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section À propos -->
+    <section id="about">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="/image/data1.jpeg" alt="Photo de profil">
+                </div>
+                <div class="about-text">
+                    <h2>À propos de moi</h2>
+                    <p>Je suis un étudiant en RT passionné par les technologies réseaux et la cybersécurité. Mon parcours académique m'a permis et m'apprendra à acquérir des compétences solides dans la conception, l'implémentation et la sécurisation d'infrastructures réseaux.</p>
+                    <p>Ma curiosité et ma volonté d'apprendre me poussent constamment à explorer de nouvelles technologies et méthodologies pour rester à la pointe dans ce domaine en constante évolution.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section SAE -->
+     
+    <section id="sae">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="sae-header">
+                <h2>Situations d'Apprentissage et d'Évaluation</h2>
+                <p>Découvrez mes réalisations académiques organisées par année et par semestre</p>
+            </div>
+            
+            <div class="tab-container">
+                <div class="year-tabs">
+                    <button class="year-tab active" data-year="1">1ère année</button>
+                    <button class="year-tab" data-year="2">2ème année</button>
+                    <button class="year-tab" data-year="3">3ème année</button>
+                </div>
+                
+                <div class="semester-tabs">
+                    <button class="semester-tab active" data-semester="1">Semestre 1</button>
+                    <button class="semester-tab" data-semester="2">Semestre 2</button>
+                </div>
+            </div>
+            
+            <!-- Contenu des SAE 1ère année, semestre 1 -->
+            <div class="tab-content active" id="year1-semester1">
+                <div class="sae-grid">
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/mooc.png" alt="SAE 1.01">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 1.01 - Sensibilisation à l'hygiène info. et à la cybersécurité</h3>
+                            <p class="sae-card-text">Réalisation d'un audit de l'infrastructure réseau d'une PME fictive et proposition de solutions d'amélioration.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE1/SAE101.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/SAE12.png" alt="SAE 1.02">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 1.02 - S’initier aux réseaux informatiques</h3>
+                            <p class="sae-card-text">Configuration et sécurisation d'un poste client Windows avec installation des services réseau essentiels.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE1/SAE102.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/F2E81CC2-616A-451B-AEFF-9E9ADC58987A.jpeg" alt="SAE 1.03">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 1.03 - Découverte d’un dispositif de transmission</h3>
+                            <p class="sae-card-text">Réaliser des testes : Photométrie sur Fibre Optique et Réflectométrie sur câble cuivre et Distance To Fault (D.T.F.)</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE1/SAE103.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/markdown_img.jpg" alt="SAE 1.04">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 1.04 - Se présenter sur Internet</h3>
+                            <p class="sae-card-text">Création d'une application web avec HTML et CSS</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE1/SAE104.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/SAE15.png" alt="SAE 1.05">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 1.05 - Traitement des données</h3>
+                            <p class="sae-card-text">Création d'une application en python pour obtenir des statistiques sur plusieurs Pokémon.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE1/SAE105.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenu des SAE 1ère année, semestre 2 -->
+            <div class="tab-content" id="year1-semester2">
+                <div class="sae-grid">
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="image/active-directory.png" alt="SAE 2.01">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 2.01 - Infrastructure réseau</h3>
+                            <p class="sae-card-text">active-directory et windows serveur</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE2/SAE201.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/emetteur.png" alt="SAE 2.02">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 2.02 - Mesurer et caractériser un signal ou un système</h3>
+                            <p class="sae-card-text">Analyse et visualisation de données de trafic réseau pour détecter des anomalies et proposer des optimisations.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE2/SAE202.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/SAE23.png" alt="SAE 2.03">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 2.03 - réalisation d'un site web dynamique</h3>
+                            <p class="sae-card-text">Projet transversal combinant compétences techniques et gestion de projet pour déployer un service réseau innovant.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE2/SAE203.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="image/SAE24.png" alt="SAE 2.04">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 2.04 - Projet intégratif : réseau, télécoms, maths et anglais</h3>
+                            <p class="sae-card-text">Projet transversal combinant compétences techniques et gestion de projet pour déployer un service réseau innovant.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE2/SAE204.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenu des SAE 2ème année, semestre 1 -->
+            <div class="tab-content" id="year2-semester1">
+                <div class="sae-grid">
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 3.01">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 3.01 - Sécurité réseau</h3>
+                            <p class="sae-card-text">Mise en place d'une politique de sécurité réseau avec pare-feu, IDS/IPS et analyse des vulnérabilités.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE3/SAE301.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 3.02">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 3.02 - Virtualisation</h3>
+                            <p class="sae-card-text">Déploiement d'une infrastructure virtualisée avec mise en place de conteneurs et orchestration.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE3/SAE302.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 3.03">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 3.03 - DevOps</h3>
+                            <p class="sae-card-text">Intégration d'une chaîne CI/CD pour automatiser le déploiement d'applications sur une infrastructure réseau.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE3/SAE303.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenu des SAE 2ème année, semestre 2 -->
+            <div class="tab-content" id="year2-semester2">
+                <div class="sae-grid">
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 4.01">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 4.01 - Téléphonie IP</h3>
+                            <p class="sae-card-text">Déploiement d'une solution de téléphonie IP complète avec serveur Asterisk et configuration avancée.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE4/SAE401.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 4.02">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 4.02 - Réseaux sans fil</h3>
+                            <p class="sae-card-text">Conception et sécurisation d'une infrastructure Wi-Fi d'entreprise multi-SSID avec authentification avancée.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE4/SAE402.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 4.03">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 4.03 - Projet client réel</h3>
+                            <p class="sae-card-text">Projet réalisé pour un client réel avec analyse des besoins, proposition de solutions et mise en œuvre.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE4/SAE403.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenu des SAE 3ème année, semestre 1 -->
+            <div class="tab-content" id="year3-semester1">
+                <div class="sae-grid">
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 5.01">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 5.01 - Cloud Computing</h3>
+                            <p class="sae-card-text">Migration d'une infrastructure on-premise vers le cloud avec optimisation des coûts et haute disponibilité.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE5/SAE501.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 5.02">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 5.02 - Cybersécurité avancée</h3>
+                            <p class="sae-card-text">Mise en place d'un SOC (Security Operations Center) et tests d'intrusion sur infrastructure complexe.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE5/SAE502.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 5.03">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 5.03 - IoT et réseaux industriels</h3>
+                            <p class="sae-card-text">Déploiement d'une solution IoT sécurisée avec capteurs, passerelles et analyse des données en temps réel.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE5/SAE503.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenu des SAE 3ème année, semestre 2 -->
+            <div class="tab-content" id="year3-semester2">
+                <div class="sae-grid">
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 6.01">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 6.01 - SDN et NFV</h3>
+                            <p class="sae-card-text">Implémentation d'un réseau défini par logiciel (SDN) avec virtualisation des fonctions réseau.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE6/SAE601.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 6.02">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 6.02 - Projet de fin d'études</h3>
+                            <p class="sae-card-text">Projet de recherche et développement sur une problématique avancée en réseaux et télécommunications.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE6/SAE602.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sae-card">
+                        <div class="sae-card-img">
+                            <img src="/image/attente.jpg" alt="SAE 6.03">
+                        </div>
+                        <div class="sae-card-body">
+                            <h3 class="sae-card-title">SAE 6.03 - Stage professionnel</h3>
+                            <p class="sae-card-text">Stage de fin d'études en entreprise avec mission concrète et responsabilités professionnelles.</p>
+                            <div class="sae-card-links">
+                                <a href="/SAE6/SAE603.html" class="card-link">En savoir plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section Projets -->
+    <section id="projects">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="projects-header">
+                <h2>Projets Personnels</h2>
+                <p>Découvrez mes projets parallèles qui reflètent ma passion pour les technologies et l'innovation</p>
+            </div>
+            
+            <div class="projects-showcase">
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="/image/budget_etudiant.png" alt="Projet Finance">
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">MonBudgetEtudiant</h3>
+                        <p class="project-text">Application de sensibilisation à la cybersécurité avec simulations d'attaques phishing et formation interactive.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">php,html,css,JavaScript,sql</span>
+                            <span class="project-tag">Web</span>
+                            <span class="project-tag">Finance</span>
+                        </div>
+                        <a href="#" class="project-link">Voir le projet</a>
+                    </div>
+                </div>
+                
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="/image/attente.jpg" >
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">A venir</h3>
+                        <a href="#" class="project-link">Voir le projet</a>
+                    </div>
+                </div>
+                
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="/image/attente.jpg" >
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">A venir</h3>
+                        <a href="#" class="project-link">Voir le projet</a>
+                    </div>
+                </div>
+                
+                <div class="project-item">
+                    <div class="project-img">
+                        <img src="/image/attente.jpg" >
+                    </div>
+                    <div class="project-body">
+                        <h3 class="project-title">A venir</h3>
+                        <a href="#" class="project-link">Voir le projet</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section Contact -->
+    <section id="contact">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Contactez-moi</h2>
+                    <p>Intéressé par mon profil ? N'hésitez pas à me contacter pour discuter de projets, opportunités ou simplement échanger sur les technologies réseaux !</p>
+                    <div class="contact-links">
+                        <a href="mailto:contact@example.com" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>maxence.canival@etu.unicaen.fr</span>
+                        </a>
+                        <a href="tel:+33600000000" class="contact-link">
+                            <i class="fas fa-phone"></i>
+                            <span>+33 6 50 07 38 81</span>
+                        </a>
+                        <a href="https://github.com/McMt27" target="_blank" class="contact-link">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="hero-overlay"></div>
+        <div class="footer-content">
+            <div class="footer-logo">Portfolio<span style="color: #5a3fff;">RT</span></div>
+            <p class="footer-text">Portfolio étudiant en Réseaux & Télécommunications</p>
+            <p class="copyright">© 2025 PortfolioRT – Tous droits réservés</p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+        // Création des étoiles
+        function createStars() {
+            const stars = document.getElementById('stars');
+            const count = 200;
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Position aléatoire
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Taille aléatoire
+                const size = Math.random() * 3 + 1;
+                
+                // Délai d'animation aléatoire
+                const delay = Math.random() * 5;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                stars.appendChild(star);
+            }
+        }
+        
+        // Curseur personnalisé
+        function initCursor() {
+            const cursor = document.querySelector('.cursor');
+            const trailsCount = 5;
+            const trails = [];
+            
+            // Créer les traînées du curseur
+            for (let i = 0; i < trailsCount; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                document.body.appendChild(trail);
+                trails.push(trail);
+            }
+            
+            // Position du curseur
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                // Ajouter un délai pour chaque traînée
+                setTimeout(() => {
+                    trails.forEach((trail, index) => {
+                        setTimeout(() => {
+                            trail.style.left = e.clientX + 'px';
+                            trail.style.top = e.clientY + 'px';
+                        }, index * 50);
+                    });
+                }, 20);
+            });
+            
+            // Effet sur les liens
+            const links = document.querySelectorAll('a, button, .card-link, .project-item');
+            links.forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                    cursor.style.background = 'rgba(100, 200, 255, 0.4)';
+                    cursor.style.boxShadow = '0 0 20px 10px rgba(100, 200, 255, 0.8)';
+                });
+                
+                link.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                    cursor.style.background = 'rgba(100, 200, 255, 0.8)';
+                    cursor.style.boxShadow = '0 0 15px 5px rgba(100, 200, 255, 0.6)';
+                });
+            });
+        }
+        
+        // Gestion des onglets SAE
+        function initTabs() {
+            const yearTabs = document.querySelectorAll('.year-tab');
+            const semesterTabs = document.querySelectorAll('.semester-tab');
+            let currentYear = '1';
+            let currentSemester = '1';
+            
+            function updateActiveTab() {
+                const tabContentId = `year${currentYear}-semester${currentSemester}`;
+                
+                // Cacher tous les contenus d'onglet
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Afficher le contenu actif
+                const activeContent = document.getElementById(tabContentId);
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                }
+            }
+            
+            // Gestion des onglets d'année
+            yearTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Retirer la classe active de tous les onglets d'année
+                    yearTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Ajouter la classe active à l'onglet cliqué
+                    tab.classList.add('active');
+                    
+                    // Mettre à jour l'année active
+                    currentYear = tab.getAttribute('data-year');
+                    
+                    // Mettre à jour l'affichage
+                    updateActiveTab();
+                });
+            });
+            
+            // Gestion des onglets de semestre
+            semesterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Retirer la classe active de tous les onglets de semestre
+                    semesterTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Ajouter la classe active à l'onglet cliqué
+                    tab.classList.add('active');
+                    
+                    // Mettre à jour le semestre actif
+                    currentSemester = tab.getAttribute('data-semester');
+                    
+                    // Mettre à jour l'affichage
+                    updateActiveTab();
+                });
+            });
+        }
+        
+        // Animation au défilement
+        function initScrollAnimation() {
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        
+                        // Animation spécifique pour les cartes
+                        const cards = entry.target.querySelectorAll('.sae-card, .project-item');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 150);
+                        });
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+                
+                // Pré-style pour l'animation
+                const cards = section.querySelectorAll('.sae-card, .project-item');
+                cards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                });
+            });
+        }
+        
+        // Navigation fluide
+        function initSmoothScroll() {
+            const navLinks = document.querySelectorAll('nav a, .cta-button');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // Effet parallaxe
+        function initParallax() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                
+                // Parallaxe pour la section hero
+                const heroContent = document.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+                
+                // Parallaxe pour les étoiles
+                const stars = document.getElementById('stars');
+                if (stars) {
+                    stars.style.transform = `translateY(${scrolled * 0.1}px)`;
+                }
+            });
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            initCursor();
+            initTabs();
+            initScrollAnimation();
+            initSmoothScroll();
+            initParallax();
+            
+            // Désactiver le curseur par défaut
+            document.body.style.cursor = 'none';
+        });
+    </script>
+</body>
+</html>

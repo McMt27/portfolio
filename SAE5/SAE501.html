@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAÉ - À venir prochainement</title>
+    <style>
+        :root {
+            --primary-color: #5271ff;
+            --secondary-color: #1a1a2e;
+            --accent-color: #4cc9f0;
+            --text-color: #f8f9fa;
+            --background-color: #121629;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --success-color: #2ed573;
+            --warning-color: #ffc700;
+            --danger-color: #ff4757;
+            --purple-color: #8e44ad;
+            --gold-color: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--background-color) 0%, #0a0e2e 50%, #1a1a2e 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: float-particles 20s infinite linear;
+        }
+
+        @keyframes float-particles {
+            0% {
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+            background: rgba(76, 201, 240, 0.1);
+        }
+
+        /* Main content */
+        main {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .construction-container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Construction site animation */
+        .construction-scene {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 0 auto 3rem;
+            position: relative;
+            background: linear-gradient(to bottom, #87ceeb 0%, #87ceeb 60%, #3a5f3a 60%, #2d4a2d 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Animated crane */
+        .crane {
+            position: absolute;
+            right: 50px;
+            bottom: 60px;
+            width: 200px;
+            height: 300px;
+        }
+
+        .crane-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 80px;
+            background: var(--warning-color);
+            border-radius: 5px;
+        }
+
+        .crane-tower {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 180px;
+            background: var(--warning-color);
+        }
+
+        .crane-arm {
+            position: absolute;
+            bottom: 240px;
+            left: 20px;
+            width: 160px;
+            height: 8px;
+            background: var(--warning-color);
+            transform-origin: left center;
+            animation: crane-swing 8s ease-in-out infinite;
+        }
+
+        .crane-hook {
+            position: absolute;
+            right: 20px;
+            bottom: -30px;
+            width: 4px;
+            height: 30px;
+            background: var(--secondary-color);
+        }
+
+        .crane-load {
+            position: absolute;
+            right: 10px;
+            bottom: -50px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 3px;
+            animation: load-swing 8s ease-in-out infinite;
+        }
+
+        @keyframes crane-swing {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        @keyframes load-swing {
+            0%, 100% { transform: translateX(0px) rotate(-2deg); }
+            50% { transform: translateX(5px) rotate(2deg); }
+        }
+
+        /* Construction barriers */
+        .barriers {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            height: 40px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .barrier {
+            flex: 1;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--warning-color),
+                var(--warning-color) 10px,
+                var(--secondary-color) 10px,
+                var(--secondary-color) 20px
+            );
+            border-radius: 5px;
+            animation: barrier-flash 2s ease-in-out infinite;
+        }
+
+        @keyframes barrier-flash {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.7; }
+        }
+
+        /* Construction sign */
+        .construction-sign {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 80px;
+            height: 80px;
+            background: var(--warning-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: sign-bounce 3s ease-in-out infinite;
+            box-shadow: 0 5px 15px rgba(255, 199, 0, 0.4);
+        }
+
+        @keyframes sign-bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Content card */
+        .content-card {
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.1), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color), var(--gold-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: title-glow 4s ease-in-out infinite;
+        }
+
+        @keyframes title-glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: rgba(248, 249, 250, 0.9);
+        }
+
+        /* Timeline */
+        .timeline {
+            background: rgba(82, 113, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 0 15px 15px 0;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '📅';
+            position: absolute;
+            left: -15px;
+            top: 20px;
+            background: var(--primary-color);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .timeline-title {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+        }
+
+        .timeline-content {
+            margin-left: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Progress section */
+        .progress-section {
+            margin: 3rem 0;
+        }
+
+        .progress-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .progress-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .progress-step {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .progress-step.current {
+            background: var(--primary-color);
+            color: white;
+            animation: pulse-step 2s ease-in-out infinite;
+        }
+
+        .progress-step.future {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .progress-connector {
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
+        @keyframes pulse-step {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(82, 113, 255, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(82, 113, 255, 0); }
+        }
+
+        /* Status badges */
+        .status-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .badge:hover {
+            transform: translateY(-2px);
+        }
+
+        .badge-construction {
+            background: rgba(255, 199, 0, 0.2);
+            color: var(--warning-color);
+            border: 2px solid var(--warning-color);
+            animation: badge-glow 3s ease-in-out infinite;
+        }
+
+        .badge-future {
+            background: rgba(76, 201, 240, 0.2);
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        @keyframes badge-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 199, 0, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(255, 199, 0, 0.2); }
+        }
+
+        /* Action button */
+        .action-button {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(82, 113, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(82, 113, 255, 0.4);
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .construction-scene {
+                height: 250px;
+                margin-bottom: 2rem;
+            }
+
+            .crane {
+                right: 20px;
+                width: 120px;
+                height: 180px;
+            }
+
+            .crane-tower {
+                height: 100px;
+                bottom: 40px;
+            }
+
+            .crane-arm {
+                width: 100px;
+                bottom: 130px;
+            }
+
+            .content-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .progress-visual {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .progress-connector {
+                width: 4px;
+                height: 20px;
+            }
+
+            .status-badges {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated particles background -->
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="logo">PortfolioRT</div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="construction-container">
+            <!-- Construction scene -->
+            <div class="construction-scene">
+                <div class="construction-sign">🚧</div>
+                
+                <div class="crane">
+                    <div class="crane-base"></div>
+                    <div class="crane-tower"></div>
+                    <div class="crane-arm">
+                        <div class="crane-hook"></div>
+                        <div class="crane-load"></div>
+                    </div>
+                </div>
+
+                <div class="barriers">
+                    <div class="barrier"></div>
+                    <div class="barrier"></div>
+                    <div class="barrier"></div>
+                    <div class="barrier"></div>
+                </div>
+            </div>
+
+            <!-- Content card -->
+            <div class="content-card">
+                <h1 class="main-title">SAÉ en Construction</h1>
+                <p class="subtitle">🏗️ Chantier en cours - Ouverture prévue 2026-2027</p>
+                
+                <div class="description">
+                    <p>
+                        Les Situations d'Apprentissage et d'Évaluation (SAÉ) de ce portfolio sont actuellement 
+                        en phase de planification. Ces projets académiques ambitieux seront développés au cours 
+                        de l'année scolaire 2026-2027 avec un niveau d'excellence professionnel.
+                    </p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-title">📋 Planning de réalisation</div>
+                    <div class="timeline-content">
+                        <strong>Année scolaire 2026-2027</strong><br>
+                        Chaque SAÉ sera documentée avec des analyses approfondies, des retours d'expérience 
+                        détaillés et une présentation des compétences techniques acquises. Un suivi en temps 
+                        réel sera disponible sur cette page.
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-title">📊 Avancement du projet</div>
+                    <div class="progress-visual">
+                        <div class="progress-step current">📋</div>
+                        <div class="progress-connector"></div>
+                        <div class="progress-step future">🔧</div>
+                        <div class="progress-connector"></div>
+                        <div class="progress-step future">🚀</div>
+                        <div class="progress-connector"></div>
+                        <div class="progress-step future">✅</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 1rem; font-size: 0.9rem; color: rgba(255,255,255,0.7);">
+                        <span>Planification</span>
+                        <span>Développement</span>
+                        <span>Tests</span>
+                        <span>Finalisation</span>
+                    </div>
+                </div>
+
+                <div class="status-badges">
+                    <div class="badge badge-construction">
+                        🚧 Zone de construction
+                    </div>
+                    <div class="badge badge-future">
+                        🎯 Objectif 2026-2027
+                    </div>
+                </div>
+
+                <a href="../index.html" class="action-button">
+                    ← Retourner au portfolio principal
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer-text">© 2025 PortfolioRT - Projet en développement continu</p>
+    </footer>
+
+    <script>
+        // Generate animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles when page loads
+        document.addEventListener('DOMContentLoaded', createParticles);
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.badge, .action-button').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

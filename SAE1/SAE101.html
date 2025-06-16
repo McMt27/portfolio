@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAE11 - Sensibilisation à l'hygiène info. et à la cybersécurité</title>
+    <style>
+        /* Variables et styles généraux */
+        :root {
+            --primary-color: #5271ff;
+            --secondary-color: #1a1a2e;
+            --accent-color: #4cc9f0;
+            --text-color: #f8f9fa;
+            --background-color: #121629;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --success-color: #2ed573;
+            --warning-color: #ffc700;
+            --danger-color: #ff4757;
+            --purple-color: #8e44ad;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .background-video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -100;
+        }
+
+        .background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(54, 31, 203, 0.1);
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--secondary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .sae-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .sae-title {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .sae-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            background-color: var(--accent-color);
+            bottom: -10px;
+            left: 20%;
+        }
+
+        .sae-section {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Description */
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Preuves section */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 360px;
+            display: block;
+        }
+
+        .document-list {
+            list-style: none;
+        }
+
+        .document-list li {
+            margin-bottom: 1rem;
+        }
+
+        .document-link {
+            display: flex;
+            align-items: center;
+            background-color: rgba(76, 201, 240, 0.1);
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color 0.3s;
+        }
+
+        .document-link:hover {
+            background-color: rgba(76, 201, 240, 0.2);
+        }
+
+        .document-icon {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Compétences section */
+        .competences-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .competences-table th,
+        .competences-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .competences-table th {
+            background-color: rgba(82, 113, 255, 0.2);
+            color: var(--accent-color);
+        }
+
+        .competences-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .validated {
+            background-color: rgba(46, 213, 115, 0.2);
+            color: #2ed573;
+        }
+
+        .in-progress {
+            background-color: rgba(255, 199, 0, 0.2);
+            color: #ffc700;
+        }
+
+        .not-validated {
+            background-color: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+
+        /* Retour d'expérience */
+        .experience ul,
+        .experience ol {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        .experience li {
+            margin-bottom: 0.8rem;
+        }
+
+        /* Points forts séparés */
+        .strengths-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(82, 113, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .strengths-title {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .strengths-title::before {
+            content: "⭐";
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .strengths-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .strengths-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .strengths-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Style pour les tableaux problèmes/solutions */
+        .problems-solutions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .problems-solutions-table th {
+            padding: 1.2rem;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .problems-solutions-table th:first-child {
+            background-color: rgba(255, 71, 87, 0.2);
+            color: var(--danger-color);
+            border-right: 2px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .problems-solutions-table th:last-child {
+            background-color: rgba(46, 213, 115, 0.2);
+            color: var(--success-color);
+        }
+
+        /* Style spécial pour le tableau des améliorations futures */
+        .improvements-table th:first-child {
+            background-color: rgba(255, 71, 87, 0.2);
+            color: var(--danger-color);
+            border-right: 2px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .improvements-table th:last-child {
+            background-color: rgba(142, 68, 173, 0.2);
+            color: var(--purple-color);
+        }
+
+        .problems-solutions-table td {
+            padding: 1.5rem;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .problems-solutions-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .problems-solutions-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .problem-cell {
+            background-color: rgba(255, 71, 87, 0.05);
+            border-right: 2px solid rgba(255, 71, 87, 0.2);
+            position: relative;
+        }
+
+        .solution-cell {
+            background-color: rgba(46, 213, 115, 0.05);
+        }
+
+        .improvement-cell {
+            background-color: rgba(142, 68, 173, 0.05);
+        }
+
+        .problem-icon,
+        .solution-icon,
+        .improvement-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .problem-icon {
+            color: var(--danger-color);
+        }
+
+        .solution-icon {
+            color: var(--success-color);
+        }
+
+        .improvement-icon {
+            color: var(--purple-color);
+        }
+
+        /* Section séparatrice */
+        .section-separator {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .separator-title {
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            padding: 0 2rem;
+            background-color: var(--card-bg);
+        }
+
+        .separator-title::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -50px;
+            right: -50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            z-index: -1;
+        }
+
+        /* Conseils */
+        .tip-box {
+            background-color: rgba(82, 113, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip-title {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .tip-title::before {
+            content: "💡";
+            margin-right: 0.5rem;
+        }
+
+        /* Back button */
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 2rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sae-title {
+                font-size: 2.2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .problems-solutions-table {
+                font-size: 0.9rem;
+            }
+
+            .problems-solutions-table th,
+            .problems-solutions-table td {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+    <main>
+      <div class="background-video-container">
+        <video class="background-video" autoplay muted loop playsinline>
+          <source src="/vidéo/vecteezy_graphic-motion-overlay-effect-loop-with-galaxy-sky-twinkling_13776245.mp4" type="video/mp4" />
+        </video>
+      </div>
+  
+      <div class="sae-header">
+        <h1 class="sae-title">SAE11 - Sensibilisation à l'hygiène info. et à la cybersécurité</h1>
+      </div>
+  
+      <section class="sae-section">
+        <h2 class="section-title">Résumé du projet</h2>
+        <div class="description">
+          <p>
+            Cette première SAE visait à nous sensibiliser aux enjeux de la cybersécurité à travers trois volets :
+            une auto-formation via le MOOC de l’ANSSI, un travail de recherche en groupe sur un thème cyber,
+            et un TP de type Capture The Flag (CTF). Ce projet nous a permis de mieux comprendre les bonnes
+            pratiques en matière d’hygiène informatique et de sécurité numérique, tout en nous exerçant à la
+            recherche collaborative et à la vulgarisation technique à l’oral.
+          </p>
+        </div>
+      </section>
+  
+      <section class="sae-section">
+        <h2 class="section-title">Apprentissages critiques</h2>
+        <p>Voici les compétences développées durant cette SAE :</p>
+        <table class="competences-table">
+          <tr>
+            <th>Compétence</th>
+            <th>Description</th>
+            <th>Statut</th>
+          </tr>
+          <tr>
+            <td>AC11.02</td>
+            <td>Comprendre l'architecture et les fondements des systèmes numériques, les principes du codage de l'information, des communications et de l'internet</td>
+            <td><span class="status validated">Validée</span></td>
+          </tr>
+          <tr>
+            <td>AC11.04</td>
+            <td>Maîtriser les rôles et les principes fondamentaux des systèmes d'exploitation afin d'interagir avec ceux-ci pour la configuration et l'administration des réseaux et services fournis</td>
+            <td><span class="status in-progress">En cours</span></td>
+          </tr>
+          <tr>
+            <td>AC11.05</td>
+            <td>Identifier les dysfonctionnements du réseau local et savoir les signaler</td>
+            <td><span class="status validated">Validée</span></td>
+          </tr>
+        </table>
+      </section>
+  
+      <section class="sae-section">
+        <h2 class="section-title">Ce que j'ai fait précisément dans la SAE 1.01</h2>
+        <div class="description">
+          <ul>
+            <li>Suivi complet du MOOC de l’ANSSI avec quizz de validation</li>
+            <li>Travail de recherche en groupe sur le thème de la sécurité des mots de passe</li>
+            <li>Rédaction collaborative d’une notice technique</li>
+            <li>Préparation d’un diaporama de synthèse présenté à l’oral</li>
+            <li>Participation au TP Capture The Flag sur machine Debian</li>
+            <li>Passage d’un QCM récapitulatif sur les bonnes pratiques cyber</li>
+          </ul>
+        </div>
+      </section>
+  
+      <section class="sae-section">
+        <h2 class="section-title">Documents et preuves</h2>
+        <div class="documents">
+          <ul class="document-list">
+            <li><a href="/image/SAE11-TP-Jean-Boomer-etudiant.pdf" class="document-link"><span class="document-icon">📄</span>CFT</a></li>
+            <li><a href="https://www.canva.com/design/DAGUS6FZoLY/SJV21OrvnBto-AkgkDpGDA/edit?utm_content=DAGUS6FZoLY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" class="document-link"><span class="document-icon">🖥️</span>Présentation orale du groupe</a></li>
+            <li><a href="/image/mooc1.pdf" class="document-link"><span class="document-icon">✅</span>Attestation MOOC ANSSI</a></li>
+          </ul>
+        </div>
+      </section>
+  
+      <section class="sae-section">
+        <h2 class="section-title">Retour d'expérience</h2>
+  
+        <div class="strengths-section">
+          <h3 class="strengths-title">Points forts du projet</h3>
+          <ul class="strengths-list">
+            <li>Apprentissage très utile sur la sécurité du numérique au quotidien</li>
+            <li>MOOC bien structuré et facile à suivre</li>
+            <li>Travail d’équipe efficace pour la partie orale</li>
+            <li>CTF ludique et motivant pour comprendre les attaques simples</li>
+          </ul>
+        </div>
+  
+        <h3 style="color: var(--accent-color); margin-top: 2rem;">🔧 Problèmes rencontrés et solutions</h3>
+        <table class="problems-solutions-table">
+          <tr>
+            <th>🔴 Problèmes rencontrés</th>
+            <th>🟢 Solutions trouvées</th>
+          </tr>
+          <tr>
+            <td class="problem-cell">Difficulté à comprendre certains termes techniques dans le MOOC</td>
+            <td class="solution-cell">Echanges avec les camarades</td>
+          </tr>
+          <tr>
+            <td class="problem-cell">Organisation difficile du travail de groupe sans encadrement</td>
+            <td class="solution-cell">Création d’un document partagé avec plan et répartition claire</td>
+          </tr>
+        </table>
+  
+        <div class="section-separator">
+          <h3 class="separator-title">Axes d'amélioration identifiés</h3>
+        </div>
+  
+        <h3 style="color: var(--purple-color);">🎯 Problèmes non résolus et améliorations à apporter</h3>
+        <table class="problems-solutions-table improvements-table">
+          <tr>
+            <td class="problem-cell">Pas eu le temps d’explorer les autres lots (SSH, scan réseau)</td>
+            <td class="improvement-cell">Refaire ces manipulations personnellement ou en TP libre</td>
+          </tr>
+          <tr>
+            <td class="problem-cell">Notice un peu longue à structurer</td>
+            <td class="improvement-cell">Prévoir un plan collaboratif plus tôt et désigner un relecteur</td>
+          </tr>
+        </table>
+  
+        <div class="tip-box">
+          <p class="tip-title">Conseils pour refaire ce projet</p>
+          <ul style="margin-left: 1.5rem;">
+            <li>Suivre sérieusement le MOOC dès la première semaine</li>
+            <li>Ne pas négliger les documents partagés, bien s’organiser à l’avance</li>
+            <li>Participer activement au CTF pour mettre en pratique</li>
+            <li>Prendre des notes pendant les vidéos pour préparer le QCM</li>
+          </ul>
+        </div>
+      </section>
+  
+      <a href="../index.html" class="back-button">← Retour aux SAÉ</a>
+    </main>
+  
+    <footer>
+      <p class="footer-text">© 2025 PortfolioRT - Tous droits réservés</p>
+    </footer>
+  </body>
+  </html>
