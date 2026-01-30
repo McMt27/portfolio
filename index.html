@@ -3,1527 +3,1306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio RT</title>
+    <title>Maxence Canival : Cybersécurité & Réseaux</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-            background-image: "vecteezy_graphic-motion-overlay-effect-loop-with-galaxy-sky-twinkling_13776245.mp4";
-
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-darker: #050810;
+            --surface: #111827;
+            --surface-light: #1a2332;
+            --primary: #00f5ff;
+            --primary-glow: rgba(0, 245, 255, 0.15);
+            --secondary: #a855f7;
+            --accent: #06b6d4;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(148, 163, 184, 0.12);
+            --border-bright: rgba(0, 245, 255, 0.3);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Outfit', sans-serif;
         }
-        @font-face {
-            font-family: "Alfa Slab One", serif;
-            src: url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
-        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            color: #e1e1ff;
-            font-family: "Alfa Slab One", serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-weight: 400;
+            line-height: 1.7;
             overflow-x: hidden;
-            transition: background-color 0.5s;
         }
 
-        /* Étoiles d'arrière-plan */
-        .stars {
+        /* --- FOND CYBERNÉTIQUE AMÉLIORÉ --- */
+        .cyber-bg {
+            position: fixed; inset: 0; z-index: 0; opacity: 0.5;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 245, 255, 0.05), transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.05), transparent 50%);
+        }
+        .grid-overlay {
+            position: fixed; inset: 0; z-index: 0;
+            background-image: linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridPulse 8s ease-in-out infinite;
+        }
+        @keyframes gridPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+
+        /* Particules flottantes */
+        .particles {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
             pointer-events: none;
-            z-index: -1;
         }
-
-        .star {
+        .particle {
             position: absolute;
-            background-color: #fff;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
             border-radius: 50%;
-            animation: twinkle 3s infinite;
+            animation: float 20s infinite linear;
+            opacity: 0.4;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-
-        /* Curseur personnalisé */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: rgba(100, 200, 255, 0.8);
-            box-shadow: 0 0 15px 5px rgba(100, 200, 255, 0.6);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            transition: transform 0.1s, width 0.2s, height 0.2s;
-        }
-
-        .cursor-trail {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(100, 200, 255, 0.3);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9998;
-            transition: width 0.1s, height 0.1s, opacity 1s;
-        }
-
-        /* Navigation */
-        .nav-container {
-            position: fixed;
-            width: 100%;
-            z-index: 100;
-            padding: 1rem 0;
-            background: linear-gradient(to bottom, rgba(10, 10, 26, 0.9), rgba(10, 10, 26, 0));
-        }
-
+        /* --- NAVIGATION --- */
         nav {
-            width: 80%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 14, 23, 0.9); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
-
+        .nav-container {
+            max-width: 1400px; margin: 0 auto; padding: 1.2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #64c8ff;
-            text-shadow: 0 0 15px rgba(100, 200, 255, 0.8);
+            font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700;
+            color: var(--primary); letter-spacing: -0.5px;
+            display: flex; align-items: center; gap: 0.5rem;
         }
-
-        .menu {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
+        .logo::before { content: '▸'; color: var(--secondary); animation: blink 2s infinite; }
+        @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        
+        .nav-links {
+            display: flex; gap: 2.5rem; list-style: none; align-items: center;
         }
-
-        .menu a {
-            text-decoration: none;
-            color: #e1e1ff;
-            font-size: 1.2rem;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: color 0.3s;
+        .nav-link {
+            color: var(--text-secondary); text-decoration: none;
+            font-family: var(--font-mono); font-size: 0.85rem; font-weight: 500;
+            transition: color 0.3s ease; position: relative;
         }
-
-        .menu a:hover {
-            color: #64c8ff;
+        .nav-link::before {
+            content: '>'; margin-right: 0.4rem; opacity: 0; transition: opacity 0.3s ease;
         }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link:hover::before { opacity: 1; }
+        
+        .nav-cta {
+            padding: 0.6rem 1.4rem; background: transparent;
+            border: 1px solid var(--primary); color: var(--primary);
+            text-decoration: none; font-family: var(--font-mono);
+            font-size: 0.8rem; font-weight: 500; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .nav-cta::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%; background: var(--primary-glow);
+            transition: left 0.3s ease; z-index: -1;
+        }
+        .nav-cta:hover::before { left: 0; }
+        .nav-cta:hover { box-shadow: 0 0 20px var(--primary-glow); }
 
-        .menu a::after {
+        /* --- HERO SECTION AMÉLIORÉE --- */
+        .hero {
+            position: relative; min-height: 100vh; display: flex;
+            align-items: center; padding: 8rem 3rem 4rem; z-index: 1;
+            overflow: hidden;
+        }
+        
+        /* Scan line effect */
+        .hero::before {
             content: '';
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
-            width: 0;
+            right: 0;
             height: 2px;
-            background-color: #64c8ff;
-            transition: width 0.3s;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: scan 4s linear infinite;
+            z-index: 2;
+            opacity: 0.5;
+        }
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
         }
 
-        .menu a:hover::after {
-            width: 100%;
+        .hero-container {
+            max-width: 1400px; margin: 0 auto; width: 100%;
+            display: grid; grid-template-columns: 1.2fr 0.8fr;
+            gap: 6rem; align-items: center;
         }
-
-        /* Sections principales */
-        section {
-            min-height: 100vh;
-            padding: 6rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        #hero {
-            position: relative;
-            min-height: 100vh;
+        
+        /* Terminal Effect */
+        .terminal-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 0.8rem 1.2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
         }
-
-        .hero-video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            overflow: hidden;
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--danger);
         }
-
-        .hero-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(54, 31, 203, 0.1);
-            z-index: -1;
+        .terminal-dot:nth-child(2) { background: var(--warning); }
+        .terminal-dot:nth-child(3) { background: var(--success); }
+        .terminal-title {
+            margin-left: auto;
+            color: var(--text-muted);
         }
 
         .hero-content {
-            text-align: center;
-            z-index: 1;
-            animation: heroFloat 6s ease-in-out infinite;
-            padding: 3rem;
-            border-radius: 20px;
-            background: rgba(26, 26, 74, 0.1);
-            border: 1px solid rgba(100, 200, 255, 0.2);
+            padding: 2rem;
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid var(--border);
+            border-top: none;
+            backdrop-filter: blur(10px);
+            position: relative;
         }
-
-        @keyframes heroFloat {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-15px) scale(1.02); }
+        
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary); }
         }
 
         .hero-content h1 {
-            font-size: 4.5rem;
-            margin-bottom: 2rem;
-            background: linear-gradient(45deg, #ffffff, #64c8ff, #5a3fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 50px rgba(100, 200, 255, 0.5);
-            animation: textGlow 3s ease-in-out infinite alternate;
+            font-size: 4.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
         }
-        .hero-content p {
-            font-size: 1.6rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: #b8b8ff;
-            line-height: 1.6;
-            text-shadow: 0 0 10px rgba(184, 184, 255, 0.5);
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 245, 255, 0.8)); }
         }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(45deg, #5a3fff, #64c8ff);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            cursor: none;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 0 15px rgba(100, 200, 255, 0.6);
+        
+        .hero-tag {
+            display: inline-block; padding: 0.5rem 1.2rem;
+            background: var(--primary-glow); border: 1px solid var(--border-bright);
+            color: var(--primary); font-family: var(--font-mono);
+            font-size: 0.8rem; font-weight: 500; margin-bottom: 1.5rem; 
+            letter-spacing: 0.5px;
+            animation: pulse-border 2s ease-in-out infinite;
         }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(100, 200, 255, 0.8);
+        @keyframes pulse-border {
+            0%, 100% { border-color: var(--border-bright); box-shadow: 0 0 10px var(--primary-glow); }
+            50% { border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
         }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+        
+        .hero-subtitle {
+            color: var(--secondary); font-family: var(--font-mono);
+            font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 500;
         }
-
-        .about-image {
+        .hero-description {
+            font-size: 1.15rem; color: var(--text-secondary);
+            line-height: 1.8; margin-bottom: 2.5rem;
+        }
+        .hero-description strong { color: var(--primary); font-weight: 600; }
+        
+        .command-line {
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
             position: relative;
-            padding-top: 110%; 
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(100, 200, 255, 0.3);
         }
-
-        .about-image::before {
+        .command-line::before {
+            content: '$';
+            color: var(--primary);
+            position: absolute;
+            left: 0;
+        }
+        
+        .skills-grid { 
+            display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 3rem; 
+        }
+        .skill-badge {
+            padding: 0.6rem 1.2rem; background: var(--surface);
+            border: 1px solid var(--border); color: var(--text-secondary);
+            font-family: var(--font-mono); font-size: 0.8rem; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .skill-badge::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #5a3fff, #64c8ff, #5a3fff);
-            z-index: -1;
-            border-radius: 17px;
-            animation: border-animation 3s linear infinite;
-        }
-
-        .about-image img {
-            position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            background: linear-gradient(90deg, transparent, var(--primary-glow), transparent);
+            transition: left 0.5s ease;
+        }
+        .skill-badge:hover::before {
+            left: 100%;
+        }
+        .skill-badge:hover {
+            border-color: var(--primary); color: var(--primary); 
+            background: var(--primary-glow);
+            transform: translateY(-2px);
+        }
+        
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 0.8rem;
+            padding: 1rem 2rem; background: var(--primary); color: var(--bg-dark);
+            text-decoration: none; font-family: var(--font-mono); font-weight: 600;
+            font-size: 0.9rem; transition: all 0.3s ease;
+            box-shadow: 0 0 30px var(--primary-glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .hero-cta:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        .hero-cta:hover {
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 50px var(--primary-glow);
+        }
+        
+        /* Image nette et statique */
+        .hero-image-wrapper {
+            position: relative; width: 100%; max-width: 450px; margin: 0 auto;
+        }
+        .hero-image-box {
+            position: relative; width: 100%; aspect-ratio: 1;
+            border-radius: 8px; overflow: hidden; border: 2px solid var(--primary);
+            box-shadow: 0 0 40px var(--primary-glow);
+        }
+        .hero-image {
+            width: 100%; height: 100%; object-fit: cover;
         }
 
-        .about-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: #fff;
+        /* --- SECTIONS --- */
+        section { position: relative; padding: 6rem 3rem; z-index: 1; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-label {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.85rem;
+            color: var(--primary); margin-bottom: 1rem; font-weight: 500; letter-spacing: 2px;
+        }
+        .section-title {
+            font-size: 3rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto;
         }
 
-        .about-text p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: #b8b8ff;
-            line-height: 1.6;
-        }
-
-        .skill-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .skill-tag {
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #64c8ff, #5a3fff);
-            border: 1px solid #5a3fff;
-            border-radius: 50px;
-            font-size: 1rem;
-            text-decoration: none;
-            color: #dbdbff;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .skill-tag:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(100, 200, 255, 0.8);
-        }
-
-        /* Section SAE */
-        #sae {
-            padding-top: 8rem;
-        }
-
-        .sae-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .sae-header h2 {
-            font-size: 3rem;
-            color: #fff;
-            margin-bottom: 1rem;
-        }
-
-        .sae-header p {
-            font-size: 1.2rem;
-            color: #b8b8ff;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .tab-container {
-            margin-bottom: 2rem;
-        }
-
+        /* --- ONGLETS --- */
+        .tabs-wrapper { max-width: 1400px; margin: 0 auto; }
         .year-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            gap: 1rem;
+            display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem;
         }
-
-        .year-tab {
-            padding: 0.8rem 2rem;
-            background: rgba(100, 200, 255, 0.1);
-            border: 1px solid rgba(100, 200, 255, 0.3);
-            border-radius: 10px;
-            color: #b8b8ff;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            cursor: none;
+        .tab-btn {
+            padding: 1rem 2.5rem; background: var(--surface); border: 1px solid var(--border);
+            color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.9rem;
+            font-weight: 500; cursor: pointer; transition: all 0.3s ease;
         }
-
-        .year-tab.active {
-            background: rgba(100, 200, 255, 0.3);
-            color: #fff;
-            box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+        .tab-btn.active {
+            background: var(--primary-glow); border-color: var(--primary);
+            color: var(--primary); box-shadow: 0 0 20px var(--primary-glow);
         }
-
+        .tab-btn:hover:not(.active) { border-color: var(--text-secondary); color: var(--text-primary); }
+        
         .semester-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
+            display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 3rem;
         }
-
-        .semester-tab {
-            padding: 0.5rem 1.5rem;
-            background: rgba(90, 63, 255, 0.1);
-            border: 1px solid rgba(90, 63, 255, 0.3);
-            border-radius: 8px;
-            color: #b8b8ff;
-            font-size: 1rem;
-            transition: all 0.3s;
-            cursor: none;
+        .sub-tab-btn {
+            padding: 0.7rem 1.5rem; background: transparent; border: none;
+            border-bottom: 2px solid transparent; color: var(--text-muted);
+            font-size: 0.95rem; cursor: pointer; transition: all 0.3s ease;
         }
+        .sub-tab-btn.active { color: var(--text-primary); border-bottom-color: var(--secondary); }
+        .sub-tab-btn:hover:not(.active) { color: var(--text-secondary); }
 
-        .semester-tab.active {
-            background: rgba(90, 63, 255, 0.3);
-            color: #fff;
-            box-shadow: 0 0 15px rgba(90, 63, 255, 0.5);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
+        /* --- CARTES --- */
+        .tab-content { display: none; animation: fadeInUp 0.6s ease; }
         .tab-content.active {
-            display: block;
-            animation: fadeIn 0.6s forwards;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem;
         }
-
-        @keyframes fadeIn {
+        @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .sae-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
+        
         .sae-card {
-            background: rgba(26, 26, 74, 0.8);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
-            transition: all 0.3s;
-            position: relative;
-            z-index: 1;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+            overflow: hidden; text-decoration: none; color: inherit; transition: all 0.4s ease;
+            display: flex; flex-direction: column; position: relative;
         }
-
         .sae-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 30px rgba(100, 200, 255, 0.4);
+            transform: translateY(-8px); border-color: var(--primary);
+            box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.6);
         }
-
-        .sae-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #3b1e7e, #0d0274);
-            z-index: -1;
-            border-radius: 17px;
-            opacity: 0;
-            transition: opacity 0.3s;
+        .card-image-container {
+            position: relative; height: 200px; overflow: hidden; background: var(--surface-light);
         }
-
-        .sae-card:hover::before {
-            opacity: 1;
+        .card-image {
+            width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;
         }
-
-        .sae-card-img {
-            height: 200px;
-            overflow: hidden;
+        .sae-card:hover .card-image { transform: scale(1.08); }
+        .card-badge {
+            position: absolute; top: 1rem; right: 1rem; padding: 0.3rem 0.8rem;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);
+            border: 1px solid var(--primary); color: var(--primary);
+            font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500; z-index: 2;
         }
-
-        .sae-card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
+        .card-content {
+            padding: 1.8rem; flex-grow: 1; display: flex; flex-direction: column;
         }
-
-        .sae-card:hover .sae-card-img img {
-            transform: scale(1.1);
+        .card-title {
+            font-size: 1.3rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.8rem;
         }
-
-        .sae-card-body {
-            padding: 1.5rem;
+        .card-description {
+            color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: auto;
         }
-
-        .sae-card-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #fff;
+        .card-footer {
+            display: flex; align-items: center; gap: 0.5rem; color: var(--primary);
+            font-family: var(--font-mono); font-size: 0.85rem; margin-top: 1.5rem; font-weight: 500;
         }
+        .card-footer::after { content: '→'; transition: transform 0.3s ease; }
+        .sae-card:hover .card-footer::after { transform: translateX(5px); }
 
-        .sae-card-text {
-            font-size: 0.9rem;
-            color: #b8b8ff;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
+        /* --- SECTION CTF --- */
+        .ctf-section {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
-
-        .sae-card-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .card-link {
-            padding: 0.5rem 1rem;
-            background: rgba(90, 63, 255, 0.2);
-            border: 1px solid rgba(90, 63, 255, 0.5);
-            border-radius: 5px;
-            color: #b8b8ff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        .card-link:hover {
-            background: rgba(90, 63, 255, 0.5);
-            color: #fff;
-        }
-
-        /* Section projets */
-        #projects {
-            padding-top: 8rem;
-        }
-
-        .projects-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .projects-header h2 {
-            font-size: 3rem;
-            color: #fff;
-            margin-bottom: 1rem;
-        }
-
-        .projects-header p {
-            font-size: 1.2rem;
-            color: #b8b8ff;
-            max-width: 700px;
+        
+        .ctf-container {
+            max-width: 1400px;
             margin: 0 auto;
         }
-
-        .projects-showcase {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
+        
+        .ctf-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 2rem;
+            background: rgba(0, 245, 255, 0.05);
+            border: 1px solid var(--border-bright);
+            border-radius: 8px;
+        }
+        
+        .ctf-intro p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .ctf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            padding: 1rem 0;
             margin-bottom: 3rem;
-            scrollbar-width: none; /* Firefox */
         }
-
-        .projects-showcase::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
-        }
-
-        .project-item {
-            min-width: 350px;
-            scroll-snap-align: start;
-            background: rgba(26, 26, 74, 0.8);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
-        }
-
-        .project-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 30px rgba(100, 200, 255, 0.4);
-        }
-
-        .project-img {
-            height: 100px;
+        
+        .ctf-platform-card {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
             overflow: hidden;
         }
-
-        .project-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
+        
+        .ctf-platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
-
-        .project-item:hover .project-img img {
-            transform: scale(1.1);
+        
+        .ctf-platform-card:hover::before {
+            transform: scaleX(1);
         }
-
-        .project-body {
-            padding: 1.5rem;
+        
+        .ctf-platform-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 245, 255, 0.2);
         }
-
-        .project-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-
-        .project-text {
-            font-size: 0.9rem;
-            color: #b8b8ff;
+        
+        .platform-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 1.5rem;
-            line-height: 1.5;
         }
-
-        .project-tags {
+        
+        .platform-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .platform-icon {
+            font-size: 1.8rem;
+        }
+        
+        .platform-rank {
+            padding: 0.4rem 1rem;
+            background: var(--primary-glow);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 20px;
+        }
+        
+        .platform-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-box-ctf {
+            padding: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-label-ctf {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value-ctf {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: var(--font-mono);
+        }
+        
+        .progress-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .progress-bar-container {
+            height: 8px;
+            background: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .achievements {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
         }
-
-        .project-tag {
-            padding: 0.3rem 0.8rem;
-            background: rgba(100, 200, 255, 0.1);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            color: #64c8ff;
+        
+        .achievement-badge {
+            padding: 0.4rem 0.8rem;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
-
-        .project-link {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: linear-gradient(45deg, #5a3fff, #64c8ff);
-            color: white;
-            border-radius: 5px;
+        
+        .platform-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
             text-decoration: none;
-            transition: all 0.3s;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
         }
-
-        .project-link:hover {
-            box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+        
+        .platform-link:hover {
+            background: var(--primary-glow);
+            box-shadow: 0 0 20px var(--primary-glow);
         }
-
-        /* Section contact */
-        #contact {
-            padding-top: 8rem;
+        
+        /* Objectifs section */
+        .goals-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: rgba(168, 85, 247, 0.05);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
         }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .contact-info h2 {
-            font-size: 2.5rem;
-            color: #fff;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-info p {
-            font-size: 1.1rem;
-            color: #b8b8ff;
+        
+        .goals-header {
+            text-align: center;
             margin-bottom: 2rem;
+        }
+        
+        .goals-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .goal-item {
+            padding: 1.5rem;
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .goal-item:hover {
+            border-color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        .goal-icon {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            flex-shrink: 0;
+        }
+        
+        .goal-content h4 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .goal-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
             line-height: 1.6;
         }
 
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        /* --- CONTACT --- */
+        .contact-section {
+            background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
         }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(26, 26, 74, 0.5);
-            border-radius: 10px;
-            color: #b8b8ff;
-            text-decoration: none;
-            transition: all 0.3s;
+        .contact-container { max-width: 1400px; margin: 0 auto; }
+        .contact-grid {
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; margin-top: 4rem;
         }
-
-        .contact-link:hover {
-            background: rgba(26, 26, 74, 0.8);
-            transform: translateX(10px);
-            color: #fff;
+        .contact-info h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--text-primary); }
+        .contact-info p {
+            color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2.5rem;
         }
-
-        .contact-link i {
-            font-size: 1.5rem;
-            color: #64c8ff;
+        .contact-methods { display: flex; flex-direction: column; gap: 1.5rem; }
+        .contact-item {
+            display: flex; align-items: center; gap: 1.2rem; padding: 1.2rem;
+            background: var(--surface-light); border: 1px solid var(--border); border-radius: 8px;
+            transition: all 0.3s ease; text-decoration: none; color: inherit;
         }
-
-        .contact-form {
-            background: rgba(26, 26, 74, 0.5);
-            padding: 2rem;
-            border-radius: 15px;
+        .contact-item:hover { border-color: var(--primary); background: var(--primary-glow); }
+        .contact-icon {
+            width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+            font-size: 1.3rem; color: var(--primary); transition: all 0.3s ease;
         }
-
-        .form-group {
-            margin-bottom: 1.5rem;
+        .contact-item:hover .contact-icon {
+            background: var(--primary); color: var(--bg-dark); box-shadow: 0 0 20px var(--primary-glow);
         }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #b8b8ff;
-            font-size: 1rem;
+        .contact-details { flex: 1; }
+        .contact-label {
+            font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem;
         }
-
-        .form-control {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background: rgba(10, 10, 26, 0.5);
-            border: 1px solid rgba(100, 200, 255, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s;
+        .contact-value { font-size: 1.05rem; color: var(--text-primary); font-weight: 500; }
+        
+        .contact-visual { display: flex; flex-direction: column; gap: 2rem; }
+        .status-card {
+            padding: 2rem; background: var(--surface-light);
+            border: 1px solid var(--border); border-radius: 8px;
         }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #64c8ff;
-            box-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
+        .status-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .status-indicator {
+            width: 12px; height: 12px; background: var(--success);
+            border-radius: 50%; animation: pulse 2s infinite;
         }
-
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--success); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 10px transparent; }
         }
-
-        .submit-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #5a3fff, #64c8ff);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            cursor: none;
-            transition: all 0.3s;
+        .status-text {
+            font-family: var(--font-mono); font-size: 0.9rem; color: var(--success); font-weight: 500;
         }
-
-        .submit-btn:hover {
-            box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+        .availability-text { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; }
+        
+        .quick-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .stat-box {
+            padding: 1.5rem; background: var(--surface-light); border: 1px solid var(--border);
+            border-radius: 8px; text-align: center;
         }
+        .stat-number {
+            font-size: 2rem; font-weight: 700; color: var(--primary);
+            font-family: var(--font-mono); margin-bottom: 0.5rem;
+        }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* Footer */
+        /* --- FOOTER --- */
         footer {
-            padding: 2rem 0;
-            text-align: center;
-            position: relative;
+            padding: 3rem; text-align: center; border-top: 1px solid var(--border);
+            background: var(--bg-darker);
         }
+        .footer-content { max-width: 1400px; margin: 0 auto; }
+        .footer-text { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); }
+        .footer-text span { color: var(--primary); }
 
-        .footer-content {
-            width: 80%;
-            margin: 0 auto;
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1200px) {
+            .hero-container, .contact-grid { grid-template-columns: 1fr; }
+            .hero-image-wrapper { order: -1; max-width: 350px; }
+            .contact-grid { gap: 3rem; }
+            .ctf-grid { grid-template-columns: 1fr; }
         }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            color: #64c8ff;
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            color: #b8b8ff;
-            margin-bottom: 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(26, 26, 74, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64c8ff;
-            transition: all 0.3s;
-        }
-
-        .social-link:hover {
-            background: #64c8ff;
-            color: #0a0a1a;
-            transform: translateY(-5px);
-        }
-
-        .copyright {
-            color: #8888bb;
-            font-size: 0.9rem;
-        }
-
-        /* Animations et effets */
-        @keyframes border-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Media queries pour la responsivité */
-        @media (max-width: 992px) {
-            .about-grid, .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-image {
-                margin-bottom: 2rem;
-            }
-
-            .menu {
-                gap: 1rem;
-            }
-        }
-
         @media (max-width: 768px) {
-            .container {
-                width: 90%;
-            }
-
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-
-            .hero-content p {
-                font-size: 1.2rem;
-            }
-
-            .menu {
-                display: none;
-            }
+            .nav-container { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero { padding: 6rem 1.5rem 3rem; }
+            .hero-content h1 { font-size: 3rem; }
+            section { padding: 4rem 1.5rem; }
+            .section-title { font-size: 2.2rem; }
+            .tab-content.active { grid-template-columns: 1fr; }
+            .year-tabs, .semester-tabs { flex-wrap: wrap; }
+            .quick-stats { grid-template-columns: 1fr; }
+            .goals-grid { grid-template-columns: 1fr; }
+            .platform-stats { grid-template-columns: 1fr; }
         }
 
-        .background-video-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -100;
-}
-
-.background-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Fond vidéo plein écran -->
-<div class="background-video-container">
-    <video class="background-video" autoplay muted loop playsinline>
-        <source src="./vidéo/vecteezy_graphic-motion-overlay-effect-loop-with-galaxy-sky-twinkling_13776245.mp4" type="video/mp4">
-        Votre navigateur ne supporte pas la lecture de vidéos.
-    </video>
-</div>
+    <div class="cyber-bg"></div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
 
-    <!-- Éléments du curseur personnalisé -->
-    <div class="cursor"></div>
-    <div class="stars" id="stars"></div>
-    
-    <!-- Navigation -->
-    <div class="nav-container">
-        <nav>
-            <div class="logo">Portfolio<span style="color: #5a3fff;">RT</span></div>
-            <ul class="menu">
-                <li><a href="#hero">Accueil</a></li>
-                <li><a href="#about">À propos</a></li>
-                <li><a href="#sae">SAÉ</a></li>
-                <li><a href="#projects">Projets</a></li>
-                <li><a href="#contact">Contact</a></li>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">M.CANIVAL</div>
+            <ul class="nav-links">
+                <li><a href="#hero" class="nav-link">Accueil</a></li>
+                <li><a href="#sae" class="nav-link">Missions</a></li>
+                <li><a href="#ctf" class="nav-link">CTF Progress</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
-        </nav>
-    </div>
-    
-<section id="hero">
-        <div class="hero-overlay"></div>
-        <div class="container">
-            <div class="hero-content">
-                <h1>Bienvenue dans mon univers</h1>
-                <p>Étudiant passionné en Réseaux & Télécommunications, explorez mes projets et compétences</p>
-                <a href="#sae" class="cta-button">Découvrir mes réalisations</a>
-                <a href="/image/CV Maxence Canival.pdf" class="skill-tag">Mon CV</a>
+            <a href="./image/CV Maxence CANIVAL.pdf" class="nav-cta" target="_blank">
+                <i class="fas fa-download"></i> CV
+            </a>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero">
+        <div class="hero-container">
+            <div>
+                <div class="terminal-header">
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-title">maxence@cyber:~</span>
+                </div>
+                <div class="hero-content">
+                    <span class="hero-tag">⚡ SYSTEM ONLINE • SECURITY LEVEL: MAX</span>
+                    <h2 class="hero-subtitle">// Spécialiste Cybersécurité & Architecte Réseau</h2>
+                    <h1>Maxence Canival</h1>
+                    
+                    <div class="command-line typing-effect">whoami --full</div>
+                    
+                    <p class="hero-description">
+                        Étudiant en <strong>BUT Réseaux & Télécommunications</strong> spécialité Cybersécurité. 
+                        Compétent en <strong>conception d'infrastructures réseau</strong>, administration système et 
+                        <strong>sécurisation d'architectures</strong>. Passionné par les <strong>CTF</strong> et l'apprentissage continu de la sécurité offensive.
+                    </p>
+                    
+                    <div class="skills-grid">
+                        <span class="skill-badge"><i class="fas fa-shield-alt"></i> Cybersécurité</span>
+                        <span class="skill-badge"><i class="fas fa-network-wired"></i> Cisco IOS</span>
+                        <span class="skill-badge"><i class="fas fa-server"></i> Virtualisation</span>
+                        <span class="skill-badge"><i class="fas fa-user-secret"></i> Pentesting</span>
+                        <span class="skill-badge"><i class="fab fa-linux"></i> Linux Admin</span>
+                        <span class="skill-badge"><i class="fas fa-project-diagram"></i> Network Design</span>
+                        <span class="skill-badge"><i class="fas fa-flag"></i> CTF Player</span>
+                        <span class="skill-badge"><i class="fas fa-fire"></i> Switching</span>
+                    </div>
+                    
+                    <a href="#sae" class="hero-cta">
+                        <i class="fas fa-crosshairs"></i> Voir mes projets
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image-wrapper">
+                <div class="hero-image-box">
+                    <img src="./image/data1.jpeg" alt="Maxence Canival" class="hero-image">
+                </div>
             </div>
         </div>
     </section>
-    
-    <!-- Section À propos -->
-    <section id="about">
-        <div class="hero-overlay"></div>
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image">
-                    <img src="./image/data1.jpeg" alt="Photo de profil">
-                </div>
-                <div class="about-text">
-                    <h2>À propos de moi</h2>
-                    <p>Je suis un étudiant en RT passionné par les technologies réseaux et la cybersécurité. Mon parcours académique m'a permis et m'apprendra à acquérir des compétences solides dans la conception, l'implémentation et la sécurisation d'infrastructures réseaux.</p>
-                    <p>Ma curiosité et ma volonté d'apprendre me poussent constamment à explorer de nouvelles technologies et méthodologies pour rester à la pointe dans ce domaine en constante évolution.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Section SAE -->
-     
+
     <section id="sae">
-        <div class="hero-overlay"></div>
-        <div class="container">
-            <div class="sae-header">
-                <h2>Situations d'Apprentissage et d'Évaluation</h2>
-                <p>Découvrez mes réalisations académiques organisées par année et par semestre</p>
+        <div class="section-header reveal">
+            <span class="section-label">// 01_PARCOURS</span>
+            <h2 class="section-title">Missions Académiques</h2>
+            <p class="section-subtitle">Projets réalisés dans le cadre de ma formation en Réseaux & Télécommunications</p>
+        </div>
+        <div class="tabs-wrapper">
+            <div class="year-tabs reveal">
+                <button class="tab-btn active" onclick="switchYear('1')">Année 1</button>
+                <button class="tab-btn" onclick="switchYear('2')">Année 2</button>
+                <button class="tab-btn" onclick="switchYear('3')">Année 3</button>
             </div>
-            
-            <div class="tab-container">
-                <div class="year-tabs">
-                    <button class="year-tab active" data-year="1">1ère année</button>
-                    <button class="year-tab" data-year="2">2ème année</button>
-                    <button class="year-tab" data-year="3">3ème année</button>
+            <div id="year1-container" style="display: block;">
+                <div class="semester-tabs reveal">
+                    <button class="sub-tab-btn active" onclick="switchSemester('1', '1')">Semestre 1</button>
+                    <button class="sub-tab-btn" onclick="switchSemester('1', '2')">Semestre 2</button>
                 </div>
-                
+                <div id="year1-s1" class="tab-content active">
+                    <a href="./SAE1/SAE101.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE11/mooc.png" class="card-image" alt="SAE 1.01">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 1.01 : Hygiène Informatique</h3>
+                            <p class="card-description">Audit complet de l'infrastructure d'une PME fictive avec recommandations de sécurité conformes aux bonnes pratiques ANSSI.</p>
+                            <div class="card-footer">Voir le rapport</div>
+                        </div>
+                    </a>
+                    <a href="./SAE1/SAE102.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE12/SAE12.png" class="card-image" alt="SAE 1.02">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 1.02 : Initiation Réseaux</h3>
+                            <p class="card-description">Configuration de postes clients et mise en place d'un réseau local sécurisé avec gestion des adresses IP et des protocoles.</p>
+                            <div class="card-footer">Voir le dossier</div>
+                        </div>
+                    </a>
+                    <a href="./SAE1/SAE103.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE13/F2E81CC2-616A-451B-AEFF-9E9ADC58987A.jpeg" class="card-image" alt="SAE 1.03">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 1.03 : Transmission</h3>
+                            <p class="card-description">Tests pratiques de photométrie sur fibre optique et réflectométrie cuivre pour analyser la qualité des transmissions.</p>
+                            <div class="card-footer">Voir les mesures</div>
+                        </div>
+                    </a>
+                    <a href="./SAE1/SAE104.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE14/markdown_img.jpg" class="card-image" alt="SAE 1.04">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 1.04 : Développement Web</h3>
+                            <p class="card-description">Conception et développement de la première version de ce portfolio en utilisant HTML, CSS et JavaScript.</p>
+                            <div class="card-footer">Voir le projet</div>
+                        </div>
+                    </a>
+                    <a href="./SAE1/SAE105.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE15/SAE15.png" class="card-image" alt="SAE 1.05">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 1.05 : Traitement de Données</h3>
+                            <p class="card-description">Analyse et traitement statistique de données avec Python sur une base de données Pokémon.</p>
+                            <div class="card-footer">Voir le code</div>
+                        </div>
+                    </a>
+                </div>
+                <div id="year1-s2" class="tab-content">
+                    <a href="./SAE2/SAE201.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE21/active-directory.png" class="card-image" alt="SAE 2.01">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 2.01 : Infrastructure Réseau</h3>
+                            <p class="card-description">Déploiement d'Active Directory et configuration complète de Windows Server pour une infrastructure d'entreprise.</p>
+                            <div class="card-footer">Voir l'infrastructure</div>
+                        </div>
+                    </a>
+                    <a href="./SAE2/SAE202.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE22/emetteur.png" class="card-image" alt="SAE 2.02">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 2.02 : Signal & Système</h3>
+                            <p class="card-description">Analyse spectrale et caractérisation de signaux analogiques et numériques pour les télécommunications.</p>
+                            <div class="card-footer">Voir l'analyse</div>
+                        </div>
+                    </a>
+                    <a href="./SAE2/SAE203.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE23/SAE23.png" class="card-image" alt="SAE 2.03">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 2.03 : Web Dynamique</h3>
+                            <p class="card-description">Développement d'un site web dynamique complet avec PHP, gestion de base de données MySQL et interface utilisateur.</p>
+                            <div class="card-footer">Voir le site</div>
+                        </div>
+                    </a>
+                    <a href="./SAE2/SAE204.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE24/SAE24.png" class="card-image" alt="SAE 2.04">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 2.04 : Architecture Complète</h3>
+                            <p class="card-description">Projet transversal intégrant Réseau, Télécoms et Gestion de projet avec méthodologie agile.</p>
+                            <div class="card-footer">Voir le projet</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div id="year2-container" style="display: none;">
                 <div class="semester-tabs">
-                    <button class="semester-tab active" data-semester="1">Semestre 1</button>
-                    <button class="semester-tab" data-semester="2">Semestre 2</button>
+                    <button class="sub-tab-btn active" onclick="switchSemester('2', '1')">Semestre 3</button>
+                    <button class="sub-tab-btn" onclick="switchSemester('2', '2')">Semestre 4</button>
+                </div>
+                <div id="year2-s1" class="tab-content active">
+                    <a href="./SAE3/SAE301.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE31/couverture.png" class="card-image" alt="couverture">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 3.01/3.02 - Projet Krypcom</h3>
+                            <p class="card-description">Déploiement d'une infrastructure opérateur complète pour l'interconnexion multi-sites (Caen/Lyon). Mise en œuvre d'une boucle optique CWDM, routage OSPF sur backbone, et intégration des services systèmes critiques (Virtualisation Proxmox, Annuaire LDAP, Cloud).</p>
+                            <div class="card-footer">Voir le projet</div>
+                        </div>
+                    </a>
+                    <a href="./SAE3/SAE303.html" class="sae-card">
+                        <div class="card-image-container">
+                            <img src="./image/SAE33/schéma.png" class="card-image" alt="Virtualisation">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">SAÉ 3.03/4 Cyber : Infra & Pentest</h3>
+                            <p class="card-description">Conception d'une architecture sécurisée multi-sites avec protocoles Cisco/FHRP, suivie d'un audit de sécurité complet (Pentest).</p>
+                            <div class="card-footer">Accéder à la mission</div>
+                        </div>
+                    </a>>
+                    </a>
+                </div>
+                <div id="year2-s2" class="tab-content">
+                    <div style="text-align:center; padding: 4rem; color: var(--text-muted); grid-column: 1/-1;">
+                        <i class="fas fa-lock" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                        <p>Données du Semestre 4 en cours de chiffrement...</p>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Contenu des SAE 1ère année, semestre 1 -->
-            <div class="tab-content active" id="year1-semester1">
-                <div class="sae-grid">
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/mooc.png" alt="SAE 1.01">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 1.01 - Sensibilisation à l'hygiène info. et à la cybersécurité</h3>
-                            <p class="sae-card-text">Réalisation d'un audit de l'infrastructure réseau d'une PME fictive et proposition de solutions d'amélioration.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE1/SAE101.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/SAE12.png" alt="SAE 1.02">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 1.02 - S’initier aux réseaux informatiques</h3>
-                            <p class="sae-card-text">Configuration et sécurisation d'un poste client Windows avec installation des services réseau essentiels.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE1/SAE102.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/F2E81CC2-616A-451B-AEFF-9E9ADC58987A.jpeg" alt="SAE 1.03">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 1.03 - Découverte d’un dispositif de transmission</h3>
-                            <p class="sae-card-text">Réaliser des testes : Photométrie sur Fibre Optique et Réflectométrie sur câble cuivre et Distance To Fault (D.T.F.)</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE1/SAE103.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
+            <div id="year3-container" style="display: none;">
+                <div style="text-align:center; padding: 6rem 2rem; color: var(--text-muted);">
+                    <i class="fas fa-satellite-dish" style="font-size: 4rem; margin-bottom: 1.5rem; display: block; color: var(--primary);"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Année 3 - Accès Restreint</h3>
+                    <p>Déploiement futur du contenu en cours...</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/markdown_img.jpg" alt="SAE 1.04">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 1.04 - Se présenter sur Internet</h3>
-                            <p class="sae-card-text">Création d'une application web avec HTML et CSS</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE1/SAE104.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
+    <section id="ctf" class="ctf-section">
+        <div class="ctf-container">
+            <div class="section-header reveal">
+                <span class="section-label">// 02_OFFENSIVE_SECURITY</span>
+                <h2 class="section-title">Progression CTF</h2>
+                <p class="section-subtitle">Mon parcours dans les compétitions de cybersécurité</p>
+            </div>
 
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/SAE15.png" alt="SAE 1.05">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 1.05 - Traitement des données</h3>
-                            <p class="sae-card-text">Création d'une application en python pour obtenir des statistiques sur plusieurs Pokémon.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE1/SAE105.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="ctf-intro reveal">
+                <p>
+                    <i class="fas fa-crosshairs" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                    Les <strong>Capture The Flag (CTF)</strong> sont au cœur de ma pratique en cybersécurité offensive. 
+                    Ces plateformes me permettent de perfectionner mes compétences en <strong>exploitation de vulnérabilités</strong>, 
+                    <strong>reverse engineering</strong>, <strong>cryptographie</strong> et <strong>analyse forensique</strong>.
+                </p>
             </div>
-            
-            <!-- Contenu des SAE 1ère année, semestre 2 -->
-            <div class="tab-content" id="year1-semester2">
-                <div class="sae-grid">
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/active-directory.png" alt="SAE 2.01">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 2.01 - Infrastructure réseau</h3>
-                            <p class="sae-card-text">active-directory et windows serveur</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE2/SAE201.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/emetteur.png" alt="SAE 2.02">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 2.02 - Mesurer et caractériser un signal ou un système</h3>
-                            <p class="sae-card-text">Analyse et visualisation de données de trafic réseau pour détecter des anomalies et proposer des optimisations.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE2/SAE202.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/SAE23.png" alt="SAE 2.03">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 2.03 - réalisation d'un site web dynamique</h3>
-                            <p class="sae-card-text">Projet transversal combinant compétences techniques et gestion de projet pour déployer un service réseau innovant.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE2/SAE203.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/SAE24.png" alt="SAE 2.04">
+            <div class="ctf-grid reveal">
+                <!-- Root-Me - Principale plateforme -->
+                <div class="ctf-platform-card" style="grid-column: 1 / -1; max-width: 900px; margin: 0 auto;">
+                    <div class="platform-header">
+                        <h3 class="platform-name">
+                            <i class="fas fa-terminal platform-icon" style="color: #FF6B35;"></i>
+                            Root-Me
+                        </h3>
+                        <span class="platform-rank">14000 ème</span>
+                    </div>
+                    
+                    <div class="platform-stats">
+                        <div class="stat-box-ctf">
+                            <div class="stat-label-ctf">Points</div>
+                            <div class="stat-value-ctf">1050</div>
                         </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 2.04 - Projet intégratif : réseau, télécoms, maths et anglais</h3>
-                            <p class="sae-card-text">Projet transversal combinant compétences techniques et gestion de projet pour déployer un service réseau innovant.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE2/SAE204.html" class="card-link">En savoir plus</a>
-                            </div>
+                        <div class="stat-box-ctf">
+                            <div class="stat-label-ctf">Challenges</div>
+                            <div class="stat-value-ctf">72</div>
+                        </div>
+                        <div class="stat-box-ctf">
+                            <div class="stat-label-ctf">Catégories</div>
+                            <div class="stat-value-ctf">11</div>
+                        </div>
+                        <div class="stat-box-ctf">
+                            <div class="stat-label-ctf">Niveau</div>
+                            <div class="stat-value-ctf">Intermédiaire</div>
                         </div>
                     </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>Progression globale</span>
+                            <span style="color: var(--primary);">11%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 11%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="color: var(--text-primary); font-size: 1rem; margin-bottom: 1rem; font-family: var(--font-mono);">
+                            <i class="fas fa-trophy" style="color: var(--secondary);"></i> Domaines de compétence
+                        </h4>
+                        <div class="achievements">
+                            <span class="achievement-badge">
+                                <i class="fas fa-code"></i> Web Security
+                            </span>
+                            <span class="achievement-badge">
+                                <i class="fas fa-network-wired"></i> Network & Protocols
+                            </span>
+                            <span class="achievement-badge">
+                                <i class="fas fa-bug"></i> Forensics
+                            </span>
+                            <span class="achievement-badge">
+                                <i class="fas fa-lock"></i> Cryptographie
+                            </span>
+                            <span class="achievement-badge">
+                                <i class="fas fa-microchip"></i> Reverse Engineering
+                            </span>
+                            <span class="achievement-badge">
+                                <i class="fas fa-server"></i> Syst. & Réseau
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.root-me.org/Synhack" target="_blank" class="platform-link">
+                        <i class="fas fa-external-link-alt"></i> Voir mon profil Root-Me
+                    </a>
+                </div>
+
+                <!-- Autres plateformes - En exploration -->
+                <div style="grid-column: 1 / -1; text-align: center; margin-top: 2rem; padding: 2rem; background: var(--surface-light); border: 1px solid var(--border); border-radius: 8px;">
+                    <h4 style="color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 1rem;">
+                        <i class="fas fa-compass"></i> Plateformes en exploration
+                    </h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        TryHackMe • HackTheBox
+                    </p>
                 </div>
             </div>
-            
-            <!-- Contenu des SAE 2ème année, semestre 1 -->
-            <div class="tab-content" id="year2-semester1">
-                <div class="sae-grid">
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 3.01">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 3.01 - Sécurité réseau</h3>
-                            <p class="sae-card-text">Mise en place d'une politique de sécurité réseau avec pare-feu, IDS/IPS et analyse des vulnérabilités.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE3/SAE301.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 3.02">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 3.02 - Virtualisation</h3>
-                            <p class="sae-card-text">Déploiement d'une infrastructure virtualisée avec mise en place de conteneurs et orchestration.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE3/SAE302.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 3.03">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 3.03 - DevOps</h3>
-                            <p class="sae-card-text">Intégration d'une chaîne CI/CD pour automatiser le déploiement d'applications sur une infrastructure réseau.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE3/SAE303.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
+
+            <!-- Section Objectifs -->
+            <div class="goals-section reveal">
+                <div class="goals-header">
+                    <h3 class="goals-title">
+                        <i class="fas fa-bullseye" style="color: var(--secondary); margin-right: 0.8rem;"></i>
+                        Objectifs de Formation
+                    </h3>
                 </div>
-            </div>
-            
-            <!-- Contenu des SAE 2ème année, semestre 2 -->
-            <div class="tab-content" id="year2-semester2">
-                <div class="sae-grid">
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 4.01">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 4.01 - Téléphonie IP</h3>
-                            <p class="sae-card-text">Déploiement d'une solution de téléphonie IP complète avec serveur Asterisk et configuration avancée.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE4/SAE401.html" class="card-link">En savoir plus</a>
-                            </div>
+                <div class="goals-grid">
+                    <div class="goal-item">
+                        <i class="fas fa-network-wired goal-icon"></i>
+                        <div class="goal-content">
+                            <h4>Architectures Réseau</h4>
+                            <p>Maîtriser la conception d'infrastructures réseau complexes et sécurisées</p>
                         </div>
                     </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 4.02">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 4.02 - Réseaux sans fil</h3>
-                            <p class="sae-card-text">Conception et sécurisation d'une infrastructure Wi-Fi d'entreprise multi-SSID avec authentification avancée.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE4/SAE402.html" class="card-link">En savoir plus</a>
-                            </div>
+                    <div class="goal-item">
+                        <i class="fas fa-shield-alt goal-icon"></i>
+                        <div class="goal-content">
+                            <h4>Sécurité Réseau</h4>
+                            <p>Approfondir mes compétences en sécurisation d'infrastructures et détection d'intrusions</p>
                         </div>
                     </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 4.03">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 4.03 - Projet client réel</h3>
-                            <p class="sae-card-text">Projet réalisé pour un client réel avec analyse des besoins, proposition de solutions et mise en œuvre.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE4/SAE403.html" class="card-link">En savoir plus</a>
-                            </div>
+                    <div class="goal-item">
+                        <i class="fas fa-trophy goal-icon"></i>
+                        <div class="goal-content">
+                            <h4>Progression CTF</h4>
+                            <p>Continuer à développer mes compétences offensives via Root-Me et autres plateformes</p>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Contenu des SAE 3ème année, semestre 1 -->
-            <div class="tab-content" id="year3-semester1">
-                <div class="sae-grid">
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 5.01">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 5.01 - Cloud Computing</h3>
-                            <p class="sae-card-text">Migration d'une infrastructure on-premise vers le cloud avec optimisation des coûts et haute disponibilité.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE5/SAE501.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 5.02">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 5.02 - Cybersécurité avancée</h3>
-                            <p class="sae-card-text">Mise en place d'un SOC (Security Operations Center) et tests d'intrusion sur infrastructure complexe.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE5/SAE502.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 5.03">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 5.03 - IoT et réseaux industriels</h3>
-                            <p class="sae-card-text">Déploiement d'une solution IoT sécurisée avec capteurs, passerelles et analyse des données en temps réel.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE5/SAE503.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Contenu des SAE 3ème année, semestre 2 -->
-            <div class="tab-content" id="year3-semester2">
-                <div class="sae-grid">
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 6.01">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 6.01 - SDN et NFV</h3>
-                            <p class="sae-card-text">Implémentation d'un réseau défini par logiciel (SDN) avec virtualisation des fonctions réseau.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE6/SAE601.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 6.02">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 6.02 - Projet de fin d'études</h3>
-                            <p class="sae-card-text">Projet de recherche et développement sur une problématique avancée en réseaux et télécommunications.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE6/SAE602.html" class="card-link">En savoir plus</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="sae-card">
-                        <div class="sae-card-img">
-                            <img src="./image/attente.jpg" alt="SAE 6.03">
-                        </div>
-                        <div class="sae-card-body">
-                            <h3 class="sae-card-title">SAE 6.03 - Stage professionnel</h3>
-                            <p class="sae-card-text">Stage de fin d'études en entreprise avec mission concrète et responsabilités professionnelles.</p>
-                            <div class="sae-card-links">
-                                <a href="./SAE6/SAE603.html" class="card-link">En savoir plus</a>
-                            </div>
+                    <div class="goal-item">
+                        <i class="fas fa-briefcase goal-icon"></i>
+                        <div class="goal-content">
+                            <h4>Alternance 2026</h4>
+                            <p>Intégrer une entreprise pour une alternance en administration réseau ou cybersécurité</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Section Projets -->
-    <section id="projects">
-        <div class="hero-overlay"></div>
-        <div class="container">
-            <div class="projects-header">
-                <h2>Projets Personnels</h2>
-                <p>Découvrez mes projets parallèles qui reflètent ma passion pour les technologies et l'innovation</p>
+
+    <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <div class="section-header reveal">
+                <span class="section-label">// 03_LIAISON</span>
+                <h2 class="section-title">Établir le Contact</h2>
+                <p class="section-subtitle">Disponible pour alternances et collaborations en réseau et cybersécurité</p>
             </div>
-            
-            <div class="projects-showcase">
-                <div class="project-item">
-                    <div class="project-img">
-                        <img src="./image/budget_etudiant.png" alt="Projet Finance">
-                    </div>
-                    <div class="project-body">
-                        <h3 class="project-title">MonBudgetEtudiant</h3>
-                        <p class="project-text">Application de sensibilisation à la cybersécurité avec simulations d'attaques phishing et formation interactive.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">php,html,css,JavaScript,sql</span>
-                            <span class="project-tag">Web</span>
-                            <span class="project-tag">Finance</span>
-                        </div>
-                        <a href="#" class="project-link">Voir le projet</a>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-img">
-                        <img src="./image/attente.jpg" >
-                    </div>
-                    <div class="project-body">
-                        <h3 class="project-title">A venir</h3>
-                        <a href="#" class="project-link">Voir le projet</a>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-img">
-                        <img src="./image/attente.jpg" >
-                    </div>
-                    <div class="project-body">
-                        <h3 class="project-title">A venir</h3>
-                        <a href="#" class="project-link">Voir le projet</a>
-                    </div>
-                </div>
-                
-                <div class="project-item">
-                    <div class="project-img">
-                        <img src="./image/attente.jpg" >
-                    </div>
-                    <div class="project-body">
-                        <h3 class="project-title">A venir</h3>
-                        <a href="#" class="project-link">Voir le projet</a>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Section Contact -->
-    <section id="contact">
-        <div class="hero-overlay"></div>
-        <div class="container">
-            <div class="contact-grid">
+            <div class="contact-grid reveal">
                 <div class="contact-info">
-                    <h2>Contactez-moi</h2>
-                    <p>Intéressé par mon profil ? N'hésitez pas à me contacter pour discuter de projets, opportunités ou simplement échanger sur les technologies réseaux !</p>
-                    <div class="contact-links">
-                        <a href="mailto:contact@example.com" class="contact-link">
-                            <i class="fas fa-envelope"></i>
-                            <span>maxence.canival@etu.unicaen.fr</span>
+                    <h3>Connectons-nous</h3>
+                    <p>Canal ouvert pour toute opportunité en <strong>administration réseau</strong>, <strong>cybersécurité</strong>, projet collaboratif ou échange technique sur les infrastructures et la sécurité.</p>
+                    <div class="contact-methods">
+                        <a href="mailto:maxence.canival@etu.unicaen.fr" class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="contact-details">
+                                <div class="contact-label">Email</div>
+                                <div class="contact-value">maxence.canival@etu.unicaen.fr</div>
+                            </div>
                         </a>
-                        <a href="tel:+33600000000" class="contact-link">
-                            <i class="fas fa-phone"></i>
-                            <span>+33 6 50 07 38 81</span>
+                        <a href="https://github.com/McMt27" target="_blank" class="contact-item">
+                            <div class="contact-icon"><i class="fab fa-github"></i></div>
+                            <div class="contact-details">
+                                <div class="contact-label">GitHub</div>
+                                <div class="contact-value">@McMt27</div>
+                            </div>
                         </a>
-                        <a href="https://github.com/McMt27" target="_blank" class="contact-link">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub</span>
+                        <a href="#" target="_blank" class="contact-item">
+                            <div class="contact-icon"><i class="fab fa-linkedin"></i></div>
+                            <div class="contact-details">
+                                <div class="contact-label">LinkedIn</div>
+                                <div class="contact-value">Maxence Canival</div>
+                            </div>
                         </a>
+                        <a href="./image/CV Maxence Canival.pdf" target="_blank" class="contact-item">
+                            <div class="contact-icon"><i class="fas fa-file-pdf"></i></div>
+                            <div class="contact-details">
+                                <div class="contact-label">Curriculum Vitae</div>
+                                <div class="contact-value">Télécharger mon CV</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-visual">
+                    <div class="status-card">
+                        <div class="status-header">
+                            <div class="status-indicator"></div>
+                            <span class="status-text">RECHERCHE ALTERNANCE 2026</span>
+                        </div>
+                        <p class="availability-text">Actuellement en 2ème année de BUT Réseaux & Télécommunications spécialité <strong>Cybersécurité</strong>, je recherche activement une alternance en <strong>administration réseau</strong>, <strong>architecture d'infrastructure</strong> ou <strong>sécurité des systèmes et réseaux</strong> pour septembre 2026.</p>
+                    </div>
+                    <div class="quick-stats">
+                        <div class="stat-box">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Projets SAÉ</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">70+</div>
+                            <div class="stat-label">CTF Solved</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Motivation</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Learning Mode</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Footer -->
+
     <footer>
-        <div class="hero-overlay"></div>
         <div class="footer-content">
-            <div class="footer-logo">Portfolio<span style="color: #5a3fff;">RT</span></div>
-            <p class="footer-text">Portfolio étudiant en Réseaux & Télécommunications</p>
-            <p class="copyright">© 2025 PortfolioRT – Tous droits réservés</p>
+            <p class="footer-text">Conçu et développé par <span>Maxence Canival</span> • Version 2026.2</p>
+            <p class="footer-text" style="margin-top: 0.5rem; font-size: 0.75rem;">
+                <i class="fas fa-network-wired"></i> Réseau • <i class="fas fa-shield-alt"></i> Cybersécurité • <i class="fas fa-terminal"></i> Innovation
+            </p>
         </div>
     </footer>
-    
-    <!-- Scripts -->
+
     <script>
-        // Création des étoiles
-        function createStars() {
-            const stars = document.getElementById('stars');
-            const count = 200;
-            
-            for (let i = 0; i < count; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                // Position aléatoire
-                const x = Math.random() * 100;
-                const y = Math.random() * 100;
-                
-                // Taille aléatoire
-                const size = Math.random() * 3 + 1;
-                
-                // Délai d'animation aléatoire
-                const delay = Math.random() * 5;
-                
-                star.style.left = `${x}%`;
-                star.style.top = `${y}%`;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.animationDelay = `${delay}s`;
-                
-                stars.appendChild(star);
+        // Génération de particules
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particles.appendChild(particle);
             }
         }
-        
-        // Curseur personnalisé
-        function initCursor() {
-            const cursor = document.querySelector('.cursor');
-            const trailsCount = 5;
-            const trails = [];
-            
-            // Créer les traînées du curseur
-            for (let i = 0; i < trailsCount; i++) {
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                document.body.appendChild(trail);
-                trails.push(trail);
-            }
-            
-            // Position du curseur
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-                
-                // Ajouter un délai pour chaque traînée
-                setTimeout(() => {
-                    trails.forEach((trail, index) => {
-                        setTimeout(() => {
-                            trail.style.left = e.clientX + 'px';
-                            trail.style.top = e.clientY + 'px';
-                        }, index * 50);
+        createParticles();
+
+        function switchYear(year) {
+            document.getElementById('year1-container').style.display = 'none';
+            document.getElementById('year2-container').style.display = 'none';
+            document.getElementById('year3-container').style.display = 'none';
+            document.getElementById('year' + year + '-container').style.display = 'block';
+            document.querySelectorAll('.year-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        function switchSemester(year, semester) {
+            document.querySelectorAll('#year' + year + '-container .tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('year' + year + '-s' + semester).classList.add('active');
+            document.querySelectorAll('#year' + year + '-container .sub-tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Animation des barres de progression au scroll
+        const observerOptions = {
+            threshold: 0.5
+        };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.progress-bar');
+                    progressBars.forEach(bar => {
+                        bar.style.width = bar.style.width;
                     });
-                }, 20);
-            });
-            
-            // Effet sur les liens
-            const links = document.querySelectorAll('a, button, .card-link, .project-item');
-            links.forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                    cursor.style.background = 'rgba(100, 200, 255, 0.4)';
-                    cursor.style.boxShadow = '0 0 20px 10px rgba(100, 200, 255, 0.8)';
-                });
-                
-                link.addEventListener('mouseleave', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                    cursor.style.background = 'rgba(100, 200, 255, 0.8)';
-                    cursor.style.boxShadow = '0 0 15px 5px rgba(100, 200, 255, 0.6)';
-                });
-            });
-        }
-        
-        // Gestion des onglets SAE
-        function initTabs() {
-            const yearTabs = document.querySelectorAll('.year-tab');
-            const semesterTabs = document.querySelectorAll('.semester-tab');
-            let currentYear = '1';
-            let currentSemester = '1';
-            
-            function updateActiveTab() {
-                const tabContentId = `year${currentYear}-semester${currentSemester}`;
-                
-                // Cacher tous les contenus d'onglet
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Afficher le contenu actif
-                const activeContent = document.getElementById(tabContentId);
-                if (activeContent) {
-                    activeContent.classList.add('active');
-                }
-            }
-            
-            // Gestion des onglets d'année
-            yearTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Retirer la classe active de tous les onglets d'année
-                    yearTabs.forEach(t => t.classList.remove('active'));
-                    
-                    // Ajouter la classe active à l'onglet cliqué
-                    tab.classList.add('active');
-                    
-                    // Mettre à jour l'année active
-                    currentYear = tab.getAttribute('data-year');
-                    
-                    // Mettre à jour l'affichage
-                    updateActiveTab();
-                });
-            });
-            
-            // Gestion des onglets de semestre
-            semesterTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Retirer la classe active de tous les onglets de semestre
-                    semesterTabs.forEach(t => t.classList.remove('active'));
-                    
-                    // Ajouter la classe active à l'onglet cliqué
-                    tab.classList.add('active');
-                    
-                    // Mettre à jour le semestre actif
-                    currentSemester = tab.getAttribute('data-semester');
-                    
-                    // Mettre à jour l'affichage
-                    updateActiveTab();
-                });
-            });
-        }
-        
-        // Animation au défilement
-        function initScrollAnimation() {
-            const sections = document.querySelectorAll('section');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        
-                        // Animation spécifique pour les cartes
-                        const cards = entry.target.querySelectorAll('.sae-card, .project-item');
-                        cards.forEach((card, index) => {
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'translateY(0)';
-                            }, index * 150);
-                        });
-                    }
-                });
-            }, { threshold: 0.2 });
-            
-            sections.forEach(section => {
-                observer.observe(section);
-                
-                // Pré-style pour l'animation
-                const cards = section.querySelectorAll('.sae-card, .project-item');
-                cards.forEach(card => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(30px)';
-                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                });
-            });
-        }
-        
-        // Navigation fluide
-        function initSmoothScroll() {
-            const navLinks = document.querySelectorAll('nav a, .cta-button');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    const targetId = link.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    
-                    if (targetSection) {
-                        window.scrollTo({
-                            top: targetSection.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        }
-        
-        // Effet parallaxe
-        function initParallax() {
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY;
-                
-                // Parallaxe pour la section hero
-                const heroContent = document.querySelector('.hero-content');
-                if (heroContent) {
-                    heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-                }
-                
-                // Parallaxe pour les étoiles
-                const stars = document.getElementById('stars');
-                if (stars) {
-                    stars.style.transform = `translateY(${scrolled * 0.1}px)`;
                 }
             });
-        }
-        
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', () => {
-            createStars();
-            initCursor();
-            initTabs();
-            initScrollAnimation();
-            initSmoothScroll();
-            initParallax();
-            
-            // Désactiver le curseur par défaut
-            document.body.style.cursor = 'none';
+        }, observerOptions);
+
+        document.querySelectorAll('.ctf-platform-card').forEach(card => {
+            observer.observe(card);
         });
     </script>
 </body>
